@@ -6,10 +6,8 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { LoginScreen } from "./src/screens/LoginScreen"
-import { HomeScreen } from "./src/screens/HomeScreen"
-import { PasswordListScreen } from "./src/screens/PasswordListScreen"
-import { CreatePasswordScreen } from "./src/screens/CreatePasswordScreen"
 import { SignUpScreen } from "./src/screens/SignUpScreen"
+import { HomeTabs } from './src/components/HomeTabs';
 
 export default function App() {
   const Stack = createNativeStackNavigator();
@@ -18,9 +16,10 @@ export default function App() {
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <NavigationContainer>
-          <Stack.Navigator initialRouteName='login'>
+          <Stack.Navigator initialRouteName='login' screenOptions={{ headerShown: true }}>
             <Stack.Screen name="login" component={LoginScreen} />
             <Stack.Screen name="signup" component={SignUpScreen} />
+            <Stack.Screen name='hometabs' component={HomeTabs} />
           </Stack.Navigator>
         </NavigationContainer>
       </PersistGate>

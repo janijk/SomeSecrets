@@ -8,6 +8,10 @@ export const LoginScreen = ({ navigation }) => {
                 onPress={() => navigation.navigate('signup')}
                 title="Sign up">
             </Button>
+            <Button
+                onPress={() => navigation.navigate('hometabs')}
+                title="to home">
+            </Button>
         </>
     )
 }

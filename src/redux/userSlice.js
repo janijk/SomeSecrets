@@ -4,6 +4,8 @@ export const userSlice = createSlice({
     name: 'user',
     initialState: {
         username: "",
+        password: "",
+        pinEnabled: false,
         credentials: [],
         //nesting slices??
 

@@ -1,12 +1,12 @@
-import { Button, StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Text, Button } from 'react-native';
 
-export const LoginScreen = ({ navigation }) => {
+export const SignUpScreen = ({ navigation }) => {
     return (
         <>
-            <Text>this is LoginScreen</Text>
+            <Text>this is SignUpScreen</Text>
             <Button
-                onPress={() => navigation.navigate('signup')}
-                title="Sign up">
+                onPress={() => navigation.goBack()}
+                title="back">
             </Button>
         </>
     )

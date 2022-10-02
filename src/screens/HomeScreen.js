@@ -1,8 +1,9 @@
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 
 export const HomeScreen = () => {
     return (
         <>
+            <Text>this is HomeScreen</Text>
         </>
     )
 }

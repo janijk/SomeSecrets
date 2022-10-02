@@ -1,8 +1,10 @@
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 
 export const CreatePasswordScreen = () => {
     return (
         <>
+            <Text>this is CreatePasswordScreen</Text>
+
         </>
     )
 }

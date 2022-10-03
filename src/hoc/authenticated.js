@@ -1,11 +1,23 @@
-import { Navigate } from "react-router-dom"
-import { useSelector} from 'react-redux';
+import {SplashScreen} from '../screens/SplashScreen'
+import { useSelector } from 'react-redux'
 
-const authenticated = (Component, props) => {
-    const isAuth = useSelector(state => state.username.value);
-    if(isAuth !== ""){
-        return <Component {...props}/>
-    }
-    else return <Navigate to="/"/>
-};
-export default withAuth;
+/**
+ * Checks state with useSelector state.loader.isAuth. Shows SplashScreen meanwhile state is being fetched.
+ * @param {*} children 
+ * @returns Splash screen if app is loading, else children
+ */
+export const Authenticated = ({children}) => {
+    const isAuth = useSelector(state => state.loader.isAuth);
+    
+    return (
+        <>       
+        {isAuth?
+            <SplashScreen/>
+            :
+            <>
+            {children}
+            </>
+        }
+        </> 
+    )
+}

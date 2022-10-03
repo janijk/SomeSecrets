@@ -6,7 +6,7 @@ import * as SecureStore from 'expo-secure-store';
 export const storageUtil = () => {
 
     /**
-     * Get data from SecureStore
+     * Get data from SecureStore, throws error if no matches found for key.
      * @param {*} key 
      * @returns object
      */
@@ -16,7 +16,7 @@ export const storageUtil = () => {
             if(data === null) throw "No value found with provided key"
             else return JSON.parse(data);           
         } catch (error) {
-            console.log(error);
+            return error;
         }
     }
 
@@ -29,7 +29,7 @@ export const storageUtil = () => {
         try {        
             SecureStore.setItemAsync(key, JSON.stringify(value)); 
         } catch (error) {
-            console.log(error);
+            return error;
         }    
     }
 
@@ -41,7 +41,7 @@ export const storageUtil = () => {
         try {
             SecureStore.deleteItemAsync(key);
         } catch (error) {
-            console.log(error);
+            return error;
         }
     }
 }

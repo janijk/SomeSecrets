@@ -13,5 +13,6 @@ export const encryption = async (value) => {
         );
     } catch (error) {
         console.log(error);
+        return error;
     }    
 }

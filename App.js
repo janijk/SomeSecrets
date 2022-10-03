@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View } from 'react-native';
-import { Provider } from 'react-redux';
+import { Provider, useSelector } from 'react-redux';
 import { store, persistor } from './src/redux/Store';
 import { PersistGate } from 'redux-persist/integration/react';
 import { NavigationContainer } from '@react-navigation/native';
@@ -8,24 +8,29 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { LoginScreen } from "./src/screens/LoginScreen"
 import { SignUpScreen } from "./src/screens/SignUpScreen"
 import { HomeTabs } from './src/components/HomeTabs';
+import { SplashScreen } from './src/screens/SplashScreen';
 
 export default function App() {
   const Stack = createNativeStackNavigator();
+  const isAuth = useSelector(state => state.loader.isAuth);
+  const isSignout = useSelector(state => state.loader.isSignout);
+
   return (
     <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <NavigationContainer>
-          <Stack.Navigator initialRouteName='login' screenOptions={{ headerShown: true }}>
-            {sign?(
-              <>
-                <Stack.Screen name="login" component={LoginScreen} />
-                <Stack.Screen name="signup" component={SignUpScreen} />
-              </>              
-            ):(
-              <Stack.Screen name='hometabs' component={HomeTabs} />
-            )}
-          </Stack.Navigator>
-        </NavigationContainer>
+      <PersistGate loading={<SplashScreen/>} persistor={persistor}>
+          <NavigationContainer>
+            <Stack.Navigator initialRouteName='login' screenOptions={{ headerShown: true }}>
+              {!isAuth?(
+                <>
+                  <Stack.Screen name="login" component={LoginScreen} options={{
+                    animationTypeForReplace: isSignout ? 'pop' : 'push'}} />
+                  <Stack.Screen name="signup" component={SignUpScreen} />
+                </>              
+              ):(
+                <Stack.Screen name='hometabs' component={HomeTabs} />
+              )}
+            </Stack.Navigator>
+          </NavigationContainer>
       </PersistGate>
     </Provider>
   );

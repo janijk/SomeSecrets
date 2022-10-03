@@ -1,11 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-export const loaderSlice = createSlice({ // Shouldnt persist
+export const loaderSlice = createSlice({
     name: 'loader',
     initialState: {
-        user: {},
+        user: "",
         isAuth: false,
-        isLoading: true,
         isSignout: false,
         pinEnabled: false,
     },
@@ -16,9 +15,6 @@ export const loaderSlice = createSlice({ // Shouldnt persist
         setIsAuth: (state) => {
             state.username = true;
         },
-        setIsLoading: (state) => {
-            state.username = false;
-        },
         setIsSignout: (state) => {
             state.username = true;
         },
@@ -27,5 +23,5 @@ export const loaderSlice = createSlice({ // Shouldnt persist
         },
     }
 })
-export const { setUsername } = loaderSlice.actions
+export const { setUsername, setIsAuth, setIsSignout, setPinEnabled} = loaderSlice.actions
 export default loaderSlice.reducer

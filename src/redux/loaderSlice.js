@@ -1,10 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-export const currentUserSlice = createSlice({
-    name: 'currentUser',
+export const loaderSlice = createSlice({
+    name: 'loader',
     initialState: {
         username: "",
         isAuth: false,
+        pinEnabled: false,
     },
     reducers: {
         setUsername: (state, action) => {
@@ -13,5 +14,5 @@ export const currentUserSlice = createSlice({
 
     }
 })
-export const { setUsername } = currentUserSlice.actions
-export default currentUserSlice.reducer
+export const { setUsername } = loaderSlice.actions
+export default loaderSlice.reducer

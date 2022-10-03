@@ -11,7 +11,6 @@ import { HomeTabs } from './src/components/HomeTabs';
 
 export default function App() {
   const Stack = createNativeStackNavigator();
-
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>

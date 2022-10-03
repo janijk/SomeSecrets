@@ -16,9 +16,14 @@ export default function App() {
       <PersistGate loading={null} persistor={persistor}>
         <NavigationContainer>
           <Stack.Navigator initialRouteName='login' screenOptions={{ headerShown: true }}>
-            <Stack.Screen name="login" component={LoginScreen} />
-            <Stack.Screen name="signup" component={SignUpScreen} />
-            <Stack.Screen name='hometabs' component={HomeTabs} />
+            {sign?(
+              <>
+                <Stack.Screen name="login" component={LoginScreen} />
+                <Stack.Screen name="signup" component={SignUpScreen} />
+              </>              
+            ):(
+              <Stack.Screen name='hometabs' component={HomeTabs} />
+            )}
           </Stack.Navigator>
         </NavigationContainer>
       </PersistGate>

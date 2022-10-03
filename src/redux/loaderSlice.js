@@ -1,17 +1,30 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-export const loaderSlice = createSlice({
+export const loaderSlice = createSlice({ // Shouldnt persist
     name: 'loader',
     initialState: {
-        username: "",
+        user: {},
         isAuth: false,
+        isLoading: true,
+        isSignout: false,
         pinEnabled: false,
     },
     reducers: {
-        setUsername: (state, action) => {
-            state.username = action.payload;
-        }
-
+        setUser: (state, action) => {
+            state.user = action.payload;
+        },
+        setIsAuth: (state) => {
+            state.username = true;
+        },
+        setIsLoading: (state) => {
+            state.username = false;
+        },
+        setIsSignout: (state) => {
+            state.username = true;
+        },
+        setPinEnabled: (state) => {
+            state.username = true;
+        },
     }
 })
 export const { setUsername } = loaderSlice.actions

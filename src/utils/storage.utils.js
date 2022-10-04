@@ -13,7 +13,7 @@ export const storageUtil = () => {
     const storageRead = async (key) => {  
         try {        
             let data = await SecureStore.getItemAsync(key);
-            if(data === null) throw "No value found with provided key"
+            if(data === null) throw new Error("No value found with provided key")
             else return JSON.parse(data);           
         } catch (error) {
             return error;

@@ -39,13 +39,13 @@ export const signup = async (username, pass) => {
     newUser.password = pass;
     try {
         const exists = await storageUtil.storageCheck(username);
-        if(exists) throw "User allready exists"                
+        if(exists) throw new Error("User allready exists");              
         await storageUtil.storageSave(username,newUser);
         useDispatch(setIsAuth());
         useDispatch(setUser(username)); 
     } catch (error) {
         console.log(error);
-        return error;
+        return error.message;
     }
 }
 

@@ -16,23 +16,22 @@ export default function App() {
   const isSignout = useSelector(state => state.loader.isSignout);
 
   return (
-    <Provider store={store}>
-      <PersistGate loading={<SplashScreen/>} persistor={persistor}>
-          <NavigationContainer>
-            <Stack.Navigator initialRouteName='login' screenOptions={{ headerShown: true }}>
-              {!isAuth?(
-                <>
-                  <Stack.Screen name="login" component={LoginScreen} options={{
-                    animationTypeForReplace: isSignout ? 'pop' : 'push'}} />
-                  <Stack.Screen name="signup" component={SignUpScreen} />
-                </>              
-              ):(
-                <Stack.Screen name='hometabs' component={HomeTabs} />
-              )}
-            </Stack.Navigator>
-          </NavigationContainer>
-      </PersistGate>
-    </Provider>
+    <PersistGate loading={<SplashScreen />} persistor={persistor}>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName='login' screenOptions={{ headerShown: true }}>
+          {!isAuth ? (
+            <>
+              <Stack.Screen name="login" component={LoginScreen} options={{
+                animationTypeForReplace: isSignout ? 'pop' : 'push'
+              }} />
+              <Stack.Screen name="signup" component={SignUpScreen} />
+            </>
+          ) : (
+            <Stack.Screen name='hometabs' component={HomeTabs} />
+          )}
+        </Stack.Navigator>
+      </NavigationContainer>
+    </PersistGate>
   );
 }
 

@@ -4,7 +4,7 @@ export const SplashScreen = () => {
     return (
         <>
             <Text>this is SplashScreen</Text>
-            <p>App is loading</p>
+            <Text>App is loading</Text>
 
         </>
     )

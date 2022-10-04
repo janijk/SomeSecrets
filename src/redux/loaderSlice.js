@@ -13,15 +13,21 @@ export const loaderSlice = createSlice({
             state.user = action.payload;
         },
         setIsAuth: (state) => {
-            state.username = true;
+            state.isAuth = true;
         },
         setIsSignout: (state) => {
-            state.username = true;
+            state.isSignout = true;
         },
         setPinEnabled: (state) => {
-            state.username = true;
+            state.pinEnabled = true;
+        },
+        resetState: (state) => {
+            state.user = "";
+            state.isAuth = false;
+            state.isSignout = false;
+            state.pinEnabled = false;
         },
     }
 })
-export const { setUsername, setIsAuth, setIsSignout, setPinEnabled} = loaderSlice.actions
+export const { setUser, setIsAuth, setIsSignout, setPinEnabled, resetState} = loaderSlice.actions
 export default loaderSlice.reducer

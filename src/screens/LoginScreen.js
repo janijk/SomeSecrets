@@ -8,20 +8,23 @@ export const LoginScreen = ({ navigation }) => {
     const [loginMessage, setLoginMessage] = useState(null);
 
     const handleLogin = async () => {
-        const signin = await login(username, password);
-        if (signin !== undefined) setLoginMessage(signin);
+        const result = await login(username, password);
+        if (result !== undefined) setLoginMessage(result);
     }
 
     return (
         <>
             <Text>this is LoginScreen</Text>
-            <TextInput value={username} onChangeText={text => setUsername(text)} placeholder="username"></TextInput>
-            <TextInput value={password} onChangeText={text => setPassword(text)} placeholder="password"></TextInput>
-            {loginMessage !== null ?
-                null
-                :
-                <Text>{loginMessage}</Text>
-            }
+            <TextInput 
+                value={username} 
+                onChangeText={text => setUsername(text)} 
+                placeholder="username">
+            </TextInput>
+            <TextInput 
+                value={password} 
+                onChangeText={text => setPassword(text)} 
+                placeholder="password">
+            </TextInput>            
             <Button
                 onPress={() => navigation.navigate('signup')}
                 title="Sign up">
@@ -30,6 +33,11 @@ export const LoginScreen = ({ navigation }) => {
                 onPress={handleLogin}
                 title="login">
             </Button>
+            {loginMessage !== null ?
+                null
+                :
+                <Text>{loginMessage}</Text>
+            }
         </>
     )
 }

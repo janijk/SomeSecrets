@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View } from 'react-native';
-import { Provider, useSelector } from 'react-redux';
-import { store, persistor } from './src/redux/Store';
+import { useSelector } from 'react-redux';
+import { persistor } from './src/redux/Store';
 import { PersistGate } from 'redux-persist/integration/react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';

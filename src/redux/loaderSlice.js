@@ -23,5 +23,5 @@ export const loaderSlice = createSlice({
         },
     }
 })
-export const { setUsername, setIsAuth, setIsSignout, setPinEnabled} = loaderSlice.actions
+export const { setUser, setIsAuth, setIsSignout, setPinEnabled} = loaderSlice.actions
 export default loaderSlice.reducer

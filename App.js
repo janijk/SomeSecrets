@@ -21,9 +21,7 @@ export default function App() {
         <Stack.Navigator initialRouteName='login' screenOptions={{ headerShown: true }}>
           {!isAuth ? (
             <>
-              <Stack.Screen name="login" component={LoginScreen} options={{
-                animationTypeForReplace: isSignout ? 'pop' : 'push'
-              }} />
+              <Stack.Screen name="login" component={LoginScreen} />
               <Stack.Screen name="signup" component={SignUpScreen} />
             </>
           ) : (

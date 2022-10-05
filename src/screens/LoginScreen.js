@@ -1,39 +1,46 @@
 import { useState } from 'react';
 import { Button, StyleSheet, View, Text, TextInput } from 'react-native';
+import { useDispatch } from 'react-redux';
+import { setIsAuth, setUser } from '../redux/loaderSlice';
 import { login } from '../utils/user.utils'
 
 export const LoginScreen = ({ navigation }) => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [loginMessage, setLoginMessage] = useState(null);
+    const dispatch = useDispatch();
 
     const handleLogin = async () => {
-        const result = await login(username, password);
-        if (result !== undefined) setLoginMessage(result);
+        const [error, isSuccess] = await login(username, password);
+        if (error) setLoginMessage(error);
+        if (isSuccess === true) {
+            dispatch(setIsAuth());
+            dispatch(setUser(username));
+        }
     }
 
     return (
         <>
             <Text>this is LoginScreen</Text>
-            <TextInput 
-                value={username} 
-                onChangeText={text => setUsername(text)} 
+            <TextInput
+                value={username}
+                onChangeText={text => setUsername(text)}
                 placeholder="username">
             </TextInput>
-            <TextInput 
-                value={password} 
-                onChangeText={text => setPassword(text)} 
+            <TextInput
+                value={password}
+                onChangeText={text => setPassword(text)}
                 placeholder="password">
-            </TextInput>            
+            </TextInput>
             <Button
                 onPress={() => navigation.navigate('signup')}
                 title="Sign up">
             </Button>
             <Button
-                onPress={handleLogin}
+                onPress={() => handleLogin()}
                 title="login">
             </Button>
-            {loginMessage !== null ?
+            {loginMessage === null ?
                 null
                 :
                 <Text>{loginMessage}</Text>

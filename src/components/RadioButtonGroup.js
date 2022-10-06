@@ -1,16 +1,22 @@
 import { useState } from 'react';
 import { View, Text, Pressable, StyleSheet } from 'react-native';
 
-export const RadioButtonGroup = ({ data, onPress }) => {
+/**
+ * Generate radio buttons according to given params. Params take in onPress function
+ * and list [{name: "name"},]   of names for buttons.
+ * @param {*} param0 
+ * @returns Pressables wrapped in a View
+ */
+export const RadioButtonGroup = ({ options, onPress }) => {
 
     const RadioButton = ({ item, index, onPress }) => {
-        const [selected, setSelected] = useState(false);
+        const [selected, setSelected] = useState(true);
         return (
             <View>
-                <Text style={styles.text}> {item.value}</Text>
+                <Text style={styles.text}> {item.name}</Text>
                 <Pressable
-                    onPress={(i) => { onPress(index), setSelected(!selected) }}
-                    style={selected ? styles.buttons : styles.selectedButtons}
+                    onPress={() => { onPress(index), setSelected(!selected) }}
+                    style={!selected ? styles.buttons : styles.selectedButtons}
                 />
             </View>
         );
@@ -18,7 +24,7 @@ export const RadioButtonGroup = ({ data, onPress }) => {
 
     return (
         <View style={styles.container}>
-            {data.map((item, index) => {
+            {options.map((item, index) => {
                 return (
                     <RadioButton key={index} item={item} index={index} onPress={onPress} />
                 );

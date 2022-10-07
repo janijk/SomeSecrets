@@ -5,23 +5,28 @@ import { RadioButtonGroup } from '../components/RadioButtonGroup';
 
 export const CreatePasswordScreen = () => {
     const [length, setLength] = useState(12);
+    const [password, setPassword] = useState(null);
     const options = [
         { name: "uppers", value: true },
         { name: "lowers", value: true },
+        { name: "numbers", value: true },
         { name: "specials", value: true }
     ];
 
     // Call api to fetch generated password according to options
-    const generatePassword = () => {
-        let apiOptions = options.map((e) => { return `${e.name}: ${e.value}` })
-        apiOptions.push(`passLength: ${length}`)
-        console.log({ ...apiOptions });
-        //generateNewPassword(apiOptions)
+    const generatePassword = async () => {
+        const apiOptions = options.map((e) => { return JSON.parse(`{"${e.name}": ${e.value}}`) });
+        apiOptions.push(JSON.parse(`{"len": ${length}}`))
+        const obj = {};
+        apiOptions.forEach(e => obj[Object.keys(e)] = Object.values(e).pop());
+        setPassword(await generateNewPassword(obj));
+
     }
 
     // Radiobutton onclick change boolean name of value
     const handleClick = (indx) => {
         options[indx].value = !options[indx].value;
+        console.log(password);
     }
 
     return (

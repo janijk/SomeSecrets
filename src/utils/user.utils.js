@@ -1,6 +1,7 @@
 import { encryption } from "./encryption.utils"
 import { storageRead, storageSave, storageCheck } from "./storage.utils"
 import { user } from '../consts/user'
+import { credential } from '../consts/credential'
 
 /**
  * Attempts to log user in with provided credentials. Returns [null, true] on success, else [error, false].
@@ -39,6 +40,42 @@ export const signup = async (username, pass) => {
         return username;
     } catch (error) {
         console.log(`user.utils signup error: ${error}`);
+        return error.message;
+    }
+}
+
+/**
+ * Creates a credential object
+ * @param {*} provider string
+ * @param {*} username string
+ * @param {*} password string
+ * @returns credential object
+ */
+export const createCredentials = (provider = "", username = "", password = "") => {
+    try {
+        const cred = credential;
+        cred.provider = provider;
+        cred.username = username;
+        cred.password = password;
+        return cred;
+    } catch (error) {
+        return error;
+    }
+}
+
+/**
+ * Adds a new credential to users credentials list
+ * @param {*} creds object
+ * @param {*} username string
+ * @returns error if cant be saved
+ */
+export const addNewCredential = async (creds = credential, username = "") => {
+    try {
+        const credsList = await storageRead(username);
+        credsList.credentials.push(creds);
+        await storageSave(username, credsList);
+    } catch (error) {
+        console.log(`user.utils addCredentials error: ${error}`);
         return error.message;
     }
 }

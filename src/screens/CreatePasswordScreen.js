@@ -95,7 +95,8 @@ export const CreatePasswordScreen = () => {
                         :
                         <Text>Saved</Text>
                     }
-                </> :
+                </>
+                :
                 null
             }
         </>

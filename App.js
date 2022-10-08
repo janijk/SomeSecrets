@@ -9,6 +9,7 @@ import { LoginScreen } from "./src/screens/LoginScreen"
 import { SignUpScreen } from "./src/screens/SignUpScreen"
 import { HomeTabs } from './src/components/HomeTabs';
 import { SplashScreen } from './src/screens/SplashScreen';
+import { useFonts } from 'expo-font'; // Implement or not to implement?
 
 export default function App() {
   const Stack = createNativeStackNavigator();

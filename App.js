@@ -9,6 +9,7 @@ import { LoginScreen } from "./src/screens/LoginScreen"
 import { SignUpScreen } from "./src/screens/SignUpScreen"
 import { HomeTabs } from './src/components/HomeTabs';
 import { SplashScreen } from './src/screens/SplashScreen';
+import { useFonts } from 'expo-font'; // Implement or not to implement?
 
 export default function App() {
   const Stack = createNativeStackNavigator();
@@ -21,9 +22,7 @@ export default function App() {
         <Stack.Navigator initialRouteName='login' screenOptions={{ headerShown: true }}>
           {!isAuth ? (
             <>
-              <Stack.Screen name="login" component={LoginScreen} options={{
-                animationTypeForReplace: isSignout ? 'pop' : 'push'
-              }} />
+              <Stack.Screen name="login" component={LoginScreen} />
               <Stack.Screen name="signup" component={SignUpScreen} />
             </>
           ) : (

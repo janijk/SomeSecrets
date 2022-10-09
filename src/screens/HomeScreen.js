@@ -1,16 +1,19 @@
-import { StyleSheet, View, Text } from 'react-native';
-import { signout } from '../utils/user.utils';
+import { StyleSheet, View, Text, Button } from 'react-native';
+import { useDispatch } from 'react-redux';
+import { setIsSignout, resetState } from '../redux/loaderSlice';
 
 export const HomeScreen = () => {
+    const dispatch = useDispatch();
+
     const handleSignout = () => {
-        signout();
+        dispatch(resetState());
     }
 
     return (
         <>
             <Text>this is HomeScreen</Text>
             <Button
-                onPress={handleSignout}
+                onPress={() => handleSignout()}
                 title="signout">
             </Button>
         </>

@@ -5,7 +5,7 @@ import { RadioButtonGroup } from '../components/RadioButtonGroup';
 import Slider from '@react-native-community/slider';
 import { createCredentials, addNewCredential } from '../utils/user.utils';
 import { useSelector, useDispatch } from 'react-redux';
-import { addCredential } from '../redux/credentialsSlice';
+import { reloadCredentials } from '../redux/loaderSlice';
 
 export const CreatePasswordScreen = () => {
     const [length, setLength] = useState(12);
@@ -14,9 +14,9 @@ export const CreatePasswordScreen = () => {
     const [password, setPassword] = useState(null);
     const [saved, setSaved] = useState(false);
     const dispatch = useDispatch();
-    const currentCredentials = useSelector(state => state.credentials);
     const currentUser = useSelector(state => state.loader.user);
 
+    // Configurations for radio gutton group
     const options = [
         { name: "uppers", value: true },
         { name: "lowers", value: true },
@@ -34,19 +34,26 @@ export const CreatePasswordScreen = () => {
         setSaved(false);
     }
 
+    // Save new credential
     const save = async () => {
         if (provider && username && password) {
             const creds = createCredentials(provider, username, password);
             const result = await addNewCredential(creds, currentUser);
-            if (!result) {
-                console.log("WE HERE");
-                dispatch(addCredential(creds)); // Non serializable?? check this
+            if (result === undefined) {
+                dispatch(reloadCredentials())
+                resetEntries()
                 setSaved(true);
             }
         }
     }
 
-    // Radiobutton onclick change boolean name of value
+    const resetEntries = () => {
+        setPassword(null);
+        setUsername(null);
+        setProvider(null);
+    }
+
+    // Radiobutton onclick -> change boolean of value
     const handleClick = (indx) => {
         options[indx].value = !options[indx].value;
     }

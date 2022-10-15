@@ -79,3 +79,20 @@ export const addNewCredential = async (creds = credential, username = "") => {
         return error.message;
     }
 }
+
+/**
+ * Save edited credentials list
+ * @param {*} creds array of credential objects
+ * @param {*} username 
+ * @returns error if cant be edited
+ */
+export const editCredentials = async (creds, username = "") => {
+    try {
+        const user = await storageRead(username);
+        user.credentials = creds;
+        await storageSave(username, user);
+    } catch (error) {
+        console.log(`user.utils editCredentials error: ${error}`);
+        return error.message;
+    }
+}

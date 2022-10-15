@@ -3,10 +3,19 @@ import { PasswordListItem } from '../components/PasswordListItem'
 
 /**
  * Password list component, implements Flatlist.
- * @param {*} credentials array of credential objects
+ * @param {*} credentials object
+ * @param {*} function Pressable longPress 
  * @returns 
  */
 export const PasswordList = ({ data, longPress }) => {
+    // Sort credential to ascending order by provider name if data not undefined
+    const creds = (data == undefined) ? null : data.slice().sort((a, b) => {
+        let fa = a.provider.toLowerCase(),
+            fb = b.provider.toLowerCase();
+        if (fa < fb) return -1;
+        if (fa > fb) return 1;
+        return 0;
+    });
     const listHeader = () => (
         <View style={styles.listHeader}>
             <Text>List begins</Text>

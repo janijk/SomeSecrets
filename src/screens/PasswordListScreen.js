@@ -53,17 +53,17 @@ export const PasswordListScreen = () => {
 
     // Handles saving of edited credential or its deletion.
     const handleAction = async (action) => {
-        if (action.delete == true) {
+        if (action.delete == true) {                                // CHECK DELETION !!!!!!
             let filtered = credentials.filter(e => e != credential);
             let result = await editCredentials(filtered, currentUser);
-            if (result === undefined) dispatch(setCredentials(filtered));
+            if (result === undefined) setCredentials(filtered);
         } else {
             let edited = credentials.map(e => {
                 if (e == credential) e = action;
                 return e;
             });
             let result = await editCredentials(edited, currentUser);
-            if (result === undefined) dispatch(setCredentials(edited));
+            if (result === undefined) setCredentials(edited);
         }
         setEditView(!editView);
     };

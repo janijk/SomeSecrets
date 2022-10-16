@@ -8,10 +8,14 @@ import { APIUrls } from "../consts/APIUrls";
  * @returns password string or error.message
  */
 export const generateNewPassword = async (props) => {
+    const upper = props.uppers === true ? "on" : "off";
+    const lower = props.lowers === true ? "on" : "off";
+    const number = props.numbers === true ? "on" : "off";
+    const special = props.specials === true ? "on" : "off";
     try {
         const response = await fetch(
-            `${APIUrls.PasswordWolfBaseUrl}?length=${props.len}&upper=${props.uppers}&lower=${props.lowers}
-            &numbers=${props.numbers}&special=${props.specials}&repeat=1`
+            `${APIUrls.PasswordWolfBaseUrl}?length=${props.len}&upper=${upper}&lower=${lower}` +
+            `&numbers=${number}&special=${special}&repeat=1`
         );
         if (!response.ok) throw new Error('Error occured in password generation');
         const result = await response.json();

@@ -7,6 +7,10 @@ import { createCredentials, addNewCredential } from '../utils/user.utils';
 import { useSelector, useDispatch } from 'react-redux';
 import { reloadCredentials } from '../redux/loaderSlice';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { AntDesign } from '@expo/vector-icons';
+import * as Clipboard from 'expo-clipboard';
+import Ionicons from '@expo/vector-icons/Ionicons';
+
 
 export const CreatePasswordScreen = () => {
     const [length, setLength] = useState(12);
@@ -16,6 +20,10 @@ export const CreatePasswordScreen = () => {
     const [saved, setSaved] = useState(false);
     const dispatch = useDispatch();
     const currentUser = useSelector(state => state.loader.user);
+
+    const copyToClipboard = async (string) => {
+        await Clipboard.setStringAsync(string);
+    };
 
     // Configurations for radio gutton group
     const options = [
@@ -32,7 +40,6 @@ export const CreatePasswordScreen = () => {
         const obj = {};
         apiOptions.forEach(e => obj[Object.keys(e)] = Object.values(e).pop());
         setPassword(await generateNewPassword(obj));
-        setSaved(false);
     }
 
     // Save new credential
@@ -41,9 +48,9 @@ export const CreatePasswordScreen = () => {
             const creds = createCredentials(provider, username, password);
             const result = await addNewCredential(creds, currentUser);
             if (result === undefined) {
-                dispatch(reloadCredentials())
-                resetEntries()
+                dispatch(reloadCredentials());
                 setSaved(true);
+                resetEntries();
             }
         }
     }
@@ -52,6 +59,9 @@ export const CreatePasswordScreen = () => {
         setPassword(null);
         setUsername(null);
         setProvider(null);
+        setTimeout(() => {
+            setSaved(false);
+        }, 2000);
     }
 
     // Radiobutton onclick -> change boolean of value
@@ -67,7 +77,7 @@ export const CreatePasswordScreen = () => {
                 <View style={styles.slider}>
                     <Text style={styles.textBlue}>length: {length}</Text>
                     <Slider
-                        style={{ width: 250, height: 40 }}
+                        style={{ width: 270, height: 40 }}
                         minimumValue={1}
                         maximumValue={30}
                         step={1}
@@ -93,9 +103,10 @@ export const CreatePasswordScreen = () => {
                             style={styles.textInputBlue}
                             value={provider}
                             onChangeText={text => setProvider(text)}
-                            placeholder="provider"
-                            placeholderTextColor={"#79C0FF"}></TextInput>
+                            placeholder="provider name"
+                            placeholderTextColor={"#cde3f7"}></TextInput>
                     </View>
+                    <View style={styles.itemSeprator}></View>
                     <View style={styles.flexRow}>
                         <Text style={styles.textOrange}>{`Username:    `}</Text>
                         <TextInput
@@ -103,8 +114,9 @@ export const CreatePasswordScreen = () => {
                             value={username}
                             onChangeText={text => setUsername(text)}
                             placeholder="username"
-                            placeholderTextColor={"#79C0FF"}></TextInput>
+                            placeholderTextColor={"#cde3f7"}></TextInput>
                     </View>
+                    <View style={styles.itemSeprator}></View>
                     <View style={styles.flexRow}>
                         <Text style={styles.textOrange}>{`Password:     `}</Text>
                         <TextInput
@@ -112,18 +124,27 @@ export const CreatePasswordScreen = () => {
                             value={password}
                             onChangeText={text => setPassword(text)}
                             placeholder="password"
-                            placeholderTextColor={"#79C0FF"}></TextInput>
+                            placeholderTextColor={"#cde3f7"}></TextInput>
+                        <Pressable
+                            onPress={() => { password ? copyToClipboard(password) : null }}
+                            style={({ pressed }) => [{ backgroundColor: pressed ? 'rgb(210, 230, 255)' : null },
+                            styles.iconPressable]}
+                        >
+                            <Ionicons name="md-copy-outline" size={25} color={password ? "#FFA657" : "transparent"} />
+                        </Pressable>
                     </View>
+                    <View style={styles.itemSeprator}></View>
                 </View>
-                {!saved ?
-                    <Pressable title='save' onPress={() => save()} disabled={saved}
-                        style={({ pressed }) => [{ borderColor: pressed ? '#FF79C6' : "lightgrey" },
-                        styles.buttons]}>
+
+                <Pressable title='save' onPress={() => save()} disabled={saved}
+                    style={({ pressed }) => [{ borderColor: pressed ? '#FF79C6' : saved ? 'green' : "lightgrey" },
+                    styles.buttons]}>
+                    {!saved ?
                         <Text style={styles.buttonText}>Save</Text>
-                    </Pressable>
-                    :
-                    <Text>Saved</Text>
-                }
+                        :
+                        <AntDesign name="checkcircleo" size={24} color="green" />
+                    }
+                </Pressable>
             </View>
             <View style={{ flex: 1 }}></View>
         </SafeAreaView>
@@ -136,10 +157,10 @@ const styles = StyleSheet.create({
         flex: 1,
         margin: 5,
         alignItems: "center",
+        justifyContent: "center",
         borderRadius: 20
     },
     slider: {
-        flexDirection: "row",
         alignItems: 'center',
         justifyContent: 'center',
     },
@@ -153,7 +174,7 @@ const styles = StyleSheet.create({
         justifyContent: "center"
     },
     buttons: {
-        marginBottom: 3,
+        margin: 20,
         width: 100,
         height: 40,
         borderRadius: 20,
@@ -174,6 +195,7 @@ const styles = StyleSheet.create({
     },
     textBlue: {
         color: "#79C0FF",
+        marginTop: 10
     },
     textInputBlue: {
         color: "#79C0FF",
@@ -186,5 +208,18 @@ const styles = StyleSheet.create({
     },
     flexRow: {
         flexDirection: "row"
-    }
+    },
+    itemSeprator: {
+        height: 1,
+        marginBottom: 5,
+        marginRight: 15,
+        width: 280,
+        alignSelf: "center",
+        backgroundColor: "#FFA657",
+        opacity: 0.4
+    },
+    iconPressable: {
+        marginLeft: 5,
+        borderRadius: 5
+    },
 });

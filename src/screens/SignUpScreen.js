@@ -3,7 +3,7 @@ import { StyleSheet, View, Text, Button, TextInput } from 'react-native';
 import { signup } from '../utils/user.utils'
 import { useDispatch } from "react-redux";
 import { setIsAuth, setUser, setIsSignout, resetState } from "../redux/loaderSlice";
-
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export const SignUpScreen = ({ navigation }) => {
     const [username, setUsername] = useState(null);
@@ -26,7 +26,7 @@ export const SignUpScreen = ({ navigation }) => {
     }
 
     return (
-        <>
+        <SafeAreaView>
             <Text>this is SignUpScreen</Text>
             <TextInput
                 value={username}
@@ -56,7 +56,7 @@ export const SignUpScreen = ({ navigation }) => {
                 :
                 <Text>{signupMessage}</Text>
             }
-        </>
+        </SafeAreaView>
     )
 }
 

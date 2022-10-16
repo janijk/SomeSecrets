@@ -6,6 +6,7 @@ import Slider from '@react-native-community/slider';
 import { createCredentials, addNewCredential } from '../utils/user.utils';
 import { useSelector, useDispatch } from 'react-redux';
 import { reloadCredentials } from '../redux/loaderSlice';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export const CreatePasswordScreen = () => {
     const [length, setLength] = useState(12);
@@ -59,78 +60,88 @@ export const CreatePasswordScreen = () => {
     }
 
     return (
-        <>
-            <Text>this is CreatePasswordScreen</Text>
-            <RadioButtonGroup options={options} onPress={(indx) => handleClick(indx)} />
-            <View style={styles.slider}>
-                <Text>length: {length}</Text>
-                <Slider
-                    style={{ width: 250, height: 40 }}
-                    minimumValue={1}
-                    maximumValue={30}
-                    step={1}
-                    minimumTrackTintColor="#FFFFFF"
-                    maximumTrackTintColor="#000000"
-                    thumbTintColor='#2675bd'
-                    value={length}
-                    onValueChange={(sliderValue) => setLength(sliderValue)}
-                />
+        <SafeAreaView style={{ flex: 1 }}>
+            <View style={styles.boxContainer}>
+                <Text style={styles.textH}>Generate</Text>
+                <RadioButtonGroup options={options} onPress={(indx) => handleClick(indx)} />
+                <View style={styles.slider}>
+                    <Text style={styles.textBlue}>length: {length}</Text>
+                    <Slider
+                        style={{ width: 250, height: 40 }}
+                        minimumValue={1}
+                        maximumValue={30}
+                        step={1}
+                        minimumTrackTintColor="#FF7B72"
+                        maximumTrackTintColor="#FFA657"
+                        thumbTintColor='#2675bd'
+                        value={length}
+                        onValueChange={(sliderValue) => setLength(sliderValue)}
+                    />
+                </View>
+                <Pressable onPress={() => generatePassword()}
+                    style={({ pressed }) => [{ borderColor: pressed ? '#FF79C6' : "lightgrey" },
+                    styles.buttons]}>
+                    <Text style={styles.buttonText}>Generate</Text>
+                </Pressable>
             </View>
-            <Button
-                onPress={() => generatePassword()}
-                title="generate">
-            </Button>
-            {password ?
-                <>
-                    <TextInput
-                        value={provider}
-                        onChangeText={text => setProvider(text)}
-                        placeholder="provider"></TextInput>
-                    <TextInput
-                        value={username}
-                        onChangeText={text => setUsername(text)}
-                        placeholder="username"></TextInput>
-                    <TextInput
-                        value={password}
-                        onChangeText={text => setPassword(text)}
-                        placeholder="password"></TextInput>
-                    {!saved ?
-                        <Pressable title='save' onPress={() => save()} disabled={saved}
-                            style={!saved ? styles.buttons : styles.savedButtons}>
-                            <Text style={styles.text}>save</Text>
-                        </Pressable>
-                        :
-                        <Text>Saved</Text>
-                    }
-                </>
-                :
-                null
-            }
-        </>
+            <View style={styles.boxContainer}>
+                <Text style={styles.textH}>Edit</Text>
+                <View>
+                    <View style={styles.flexRow}>
+                        <Text style={styles.textOrange}>{`Provider:       `}</Text>
+                        <TextInput
+                            style={styles.textInputBlue}
+                            value={provider}
+                            onChangeText={text => setProvider(text)}
+                            placeholder="provider"
+                            placeholderTextColor={"#79C0FF"}></TextInput>
+                    </View>
+                    <View style={styles.flexRow}>
+                        <Text style={styles.textOrange}>{`Username:    `}</Text>
+                        <TextInput
+                            style={styles.textInputBlue}
+                            value={username}
+                            onChangeText={text => setUsername(text)}
+                            placeholder="username"
+                            placeholderTextColor={"#79C0FF"}></TextInput>
+                    </View>
+                    <View style={styles.flexRow}>
+                        <Text style={styles.textOrange}>{`Password:     `}</Text>
+                        <TextInput
+                            style={styles.textInputBlue}
+                            value={password}
+                            onChangeText={text => setPassword(text)}
+                            placeholder="password"
+                            placeholderTextColor={"#79C0FF"}></TextInput>
+                    </View>
+                </View>
+                {!saved ?
+                    <Pressable title='save' onPress={() => save()} disabled={saved}
+                        style={({ pressed }) => [{ borderColor: pressed ? '#FF79C6' : "lightgrey" },
+                        styles.buttons]}>
+                        <Text style={styles.buttonText}>Save</Text>
+                    </Pressable>
+                    :
+                    <Text>Saved</Text>
+                }
+            </View>
+            <View style={{ flex: 1 }}></View>
+        </SafeAreaView>
     )
 }
 
 const styles = StyleSheet.create({
-    container: {
+    boxContainer: {
+        backgroundColor: "#282A36",
         flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
+        margin: 5,
+        alignItems: "center",
+        borderRadius: 20
     },
     slider: {
         flexDirection: "row",
         alignItems: 'center',
         justifyContent: 'center',
-    },
-    buttons: {
-        width: 100,
-        height: 40,
-        borderWidth: 1,
-        borderRadius: 20,
-        borderColor: "black",
-        backgroundColor: "lightblue",
-        justifyContent: "center"
-
     },
     savedButtons: {
         width: 100,
@@ -141,10 +152,39 @@ const styles = StyleSheet.create({
         backgroundColor: "lightgreen",
         justifyContent: "center"
     },
-    text: {
-        margin: 5,
-        color: "black",
+    buttons: {
+        marginBottom: 3,
+        width: 100,
+        height: 40,
+        borderRadius: 20,
+        borderWidth: 2,
+        justifyContent: "center",
         alignItems: "center",
         alignSelf: "center"
+    },
+    buttonText: {
+        color: "#79C0FF",
+        fontWeight: "600"
+    },
+    textH: {
+        color: "#FF7B72",
+        fontSize: 20,
+        margin: 10,
+        alignSelf: "center"
+    },
+    textBlue: {
+        color: "#79C0FF",
+    },
+    textInputBlue: {
+        color: "#79C0FF",
+        width: 200
+    },
+    textOrange: {
+        fontSize: 15,
+        color: "#FFA657",
+        alignSelf: "center"
+    },
+    flexRow: {
+        flexDirection: "row"
     }
 });

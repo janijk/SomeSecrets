@@ -17,7 +17,7 @@ export const PasswordListItem = ({ props, longPress }) => {
     };
 
     return (
-        <View>
+        <View style={styles.container}>
             <View style={styles.itemViewHeader}>
                 <Pressable
                     onLongPress={longPress}
@@ -28,29 +28,35 @@ export const PasswordListItem = ({ props, longPress }) => {
                     }
                 >
                     <Text style={styles.listItemProvider}>{props.provider}</Text>
-                    <Ionicons name={!expanded ? "md-chevron-down" : "md-chevron-up"} size={32} color="black" />
+                    <Ionicons name={!expanded ? "md-chevron-down" : "md-chevron-up"} size={32} color="#FFA657" />
                 </Pressable>
             </View>
             {expanded ?
                 <>
                     <View style={styles.itemView}>
-                        <Text style={styles.listItemText}>{`Username:   ${props.username}`}</Text>
+                        <View style={styles.flexRow}>
+                            <Text style={styles.listItemTextOne}>Username:</Text>
+                            <Text style={styles.listItemText}>{`   ${props.username}`}</Text>
+                        </View>
                         <Pressable
                             onPress={() => copyToClipboard(props.username)}
                             style={({ pressed }) => [{ backgroundColor: pressed ? 'rgb(210, 230, 255)' : null },
                             styles.iconPressable]}
                         >
-                            <Ionicons name="md-copy-outline" size={25} color="green" />
+                            <Ionicons name="md-copy-outline" size={25} color="#FFA657" />
                         </Pressable>
                     </View>
                     <View style={styles.itemView}>
-                        <Text style={styles.listItemText}>{`Password:    ${props.password}`}</Text>
+                        <View style={styles.flexRow}>
+                            <Text style={styles.listItemTextOne}>Password:</Text>
+                            <Text style={styles.listItemText}>{`    ${props.password}`}</Text>
+                        </View>
                         <Pressable
                             onPress={() => copyToClipboard(props.password)}
                             style={({ pressed }) => [{ backgroundColor: pressed ? 'rgb(210, 230, 255)' : null },
                             styles.iconPressable]}
                         >
-                            <Ionicons name="md-copy-outline" size={25} color="green" />
+                            <Ionicons name="md-copy-outline" size={25} color="#FFA657" />
                         </Pressable>
                     </View>
                 </>
@@ -61,17 +67,26 @@ export const PasswordListItem = ({ props, longPress }) => {
 }
 
 const styles = StyleSheet.create({
+    container: {
+        margin: 1
+    },
     listItemProvider: {
         fontWeight: "bold",
         fontSize: 20,
+        color: "#FF7B72"
+    },
+    listItemTextOne: {
+        fontSize: 15,
+        color: "#FFA657",
     },
     listItemText: {
         fontSize: 15,
+        color: "#79C0FF",
     },
     itemView: {
         flexDirection: "row",
         justifyContent: "space-between",
-        backgroundColor: "whitesmoke"
+        backgroundColor: "#282A36"
     },
     itemViewHeader: {
         flexDirection: "row",
@@ -86,4 +101,7 @@ const styles = StyleSheet.create({
     iconPressable: {
         borderRadius: 5
     },
+    flexRow: {
+        flexDirection: "row"
+    }
 })

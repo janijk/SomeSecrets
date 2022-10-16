@@ -5,6 +5,7 @@ import { EditCredential } from '../components/EditCredential';
 import { useSelector } from 'react-redux';
 import { storageRead } from '../utils/storage.utils';
 import { editCredentials } from '../utils/user.utils';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export const PasswordListScreen = () => {
     const [editView, setEditView] = useState(false);
@@ -69,19 +70,25 @@ export const PasswordListScreen = () => {
     };
 
     return (
-        <>
-            <Text>this is PasswordListScreen</Text>
+        <SafeAreaView>
             <View>
                 {!editView ?
                     <PasswordList data={credentials} longPress={(indx) => handleLongPress(indx)} />
                     :
                     <>
                         <EditCredential credential={credential} action={(action) => handleAction(action)} />
-                        <Button title='back' onPress={() => setEditView(!editView)}></Button>
+                        <View style={styles.containerEdit}>
+                            <View style={{ width: 75 }}></View>
+                            <Pressable onPress={() => setEditView(!editView)}
+                                style={({ pressed }) => [{ borderColor: pressed ? '#FF79C6' : "lightgrey" },
+                                styles.buttons]}>
+                                <Text style={styles.buttonText}>Cancel</Text>
+                            </Pressable>
+                        </View>
                     </>
                 }
             </View>
-        </>
+        </SafeAreaView>
     )
 }
 
@@ -91,5 +98,22 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         alignItems: 'center',
         justifyContent: 'center',
+    },
+    containerEdit: {
+        flexDirection: "row",
+        justifyContent: "space-around"
+    },
+    buttons: {
+        marginBottom: 3,
+        width: 100,
+        height: 40,
+        borderRadius: 20,
+        borderWidth: 2,
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    buttonText: {
+        color: "#79C0FF",
+        fontWeight: "600"
     },
 });

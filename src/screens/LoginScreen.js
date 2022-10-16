@@ -3,6 +3,7 @@ import { Button, StyleSheet, View, Text, TextInput } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { setIsAuth, setUser } from '../redux/loaderSlice';
 import { login } from '../utils/user.utils'
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export const LoginScreen = ({ navigation }) => {
     const [username, setUsername] = useState("");
@@ -20,7 +21,7 @@ export const LoginScreen = ({ navigation }) => {
     }
 
     return (
-        <>
+        <SafeAreaView>
             <Text>this is LoginScreen</Text>
             <TextInput
                 value={username}
@@ -45,7 +46,7 @@ export const LoginScreen = ({ navigation }) => {
                 :
                 <Text>{loginMessage}</Text>
             }
-        </>
+        </SafeAreaView>
     )
 }
 

@@ -1,5 +1,6 @@
 import { FlatList, Text, View, Pressable, StyleSheet } from "react-native"
 import { PasswordListItem } from '../components/PasswordListItem'
+import { AntDesign } from '@expo/vector-icons';
 
 /**
  * Password list component, implements Flatlist.
@@ -18,19 +19,19 @@ export const PasswordList = ({ data, longPress }) => {
     });
     const listHeader = () => (
         <View style={styles.listHeader}>
-            <Text>List begins</Text>
+            <Text style={styles.textBlue}>Credentials</Text>
         </View>
     )
     const listFooter = () => (
         <View style={styles.listFooter}>
-            <Text>List ends</Text>
+            <Text style={styles.textBlue}><AntDesign name="API" size={30} color="#79C0FF" /></Text>
         </View>
     )
     const itemSeparator = () => (
         <View style={styles.itemSeprator}></View>
     )
     const listEmpty = () => (
-        <View><Text>No saved passwords</Text></View>
+        <View><Text style={styles.textBlue}>No saved passwords</Text></View>
     )
 
     return (
@@ -50,20 +51,26 @@ export const PasswordList = ({ data, longPress }) => {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: "lightgrey",
+        backgroundColor: "#282A36",
+        borderRadius: 20,
+        margin: 5,
     },
     itemSeprator: {
         height: 1,
         marginBottom: 5,
-        backgroundColor: "white",
+        backgroundColor: "#FFA657",
         opacity: 0.5
     },
     listHeader: {
-        height: 25,
-        alignItems: "center"
+        margin: 10,
+        alignItems: "center",
     },
     listFooter: {
-        height: 25,
-        alignItems: "center"
-    }
+        margin: 10,
+        alignItems: "center",
+    },
+    textBlue: {
+        color: "#79C0FF",
+        fontSize: 16
+    },
 })

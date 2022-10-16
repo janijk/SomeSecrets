@@ -16,10 +16,22 @@ export default function App() {
   const isAuth = useSelector(state => state.loader.isAuth);
   const isSignout = useSelector(state => state.loader.isSignout);
 
+  const MyTheme = {
+    dark: true,
+    colors: {
+      primary: '#FF79C6',
+      background: '#212121',
+      card: '#282A36',
+      text: '#79C0FF',
+      border: '#FF79C6',
+      notification: '#79C0FF',
+    },
+  };
+
   return (
     <PersistGate loading={<SplashScreen />} persistor={persistor}>
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName='login' screenOptions={{ headerShown: true }}>
+      <NavigationContainer theme={MyTheme}>
+        <Stack.Navigator initialRouteName='login' screenOptions={{ headerShown: false }}>
           {!isAuth ? (
             <>
               <Stack.Screen name="login" component={LoginScreen} />

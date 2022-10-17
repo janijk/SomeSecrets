@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, StyleSheet, View, Text, TextInput, Pressable } from 'react-native';
+import { StyleSheet, View, Text, TextInput, Pressable } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { setIsAuth, setUser } from '../redux/loaderSlice';
 import { login } from '../utils/user.utils'
@@ -22,14 +22,15 @@ export const LoginScreen = ({ navigation }) => {
 
     return (
         <SafeAreaView style={styles.container}>
-            <Text style={styles.textH}>this is LoginScreen</Text>
+            <Text style={styles.textH}>Login</Text>
             <TextInput
                 style={styles.textInputBlue}
                 value={username}
                 onChangeText={text => setUsername(text)}
                 placeholder="username"
-                placeholderTextColor={"#cde3f7"}> { /* COPY STUFF FROM CREATE PASSWORD SCREEN */}
+                placeholderTextColor={"#cde3f7"}>
             </TextInput>
+            <View style={styles.itemSeprator}></View>
             <TextInput
                 style={styles.textInputBlue}
                 value={password}
@@ -37,16 +38,19 @@ export const LoginScreen = ({ navigation }) => {
                 placeholder="password"
                 placeholderTextColor={"#cde3f7"}>
             </TextInput>
-            <Pressable onPress={() => navigation.navigate('signup')}
-                style={({ pressed }) => [{ borderColor: pressed ? '#FF79C6' : "lightgrey" },
-                styles.buttons]}>
-                <Text style={styles.buttonText}>Sign up</Text>
-            </Pressable>
-            <Pressable onPress={() => handleLogin()}
-                style={({ pressed }) => [{ borderColor: pressed ? '#FF79C6' : "lightgrey" },
-                styles.buttons]}>
-                <Text style={styles.buttonText}>login</Text>
-            </Pressable>
+            <View style={styles.itemSeprator}></View>
+            <View style={styles.flexRow}>
+                <Pressable onPress={() => navigation.navigate('signup')}
+                    style={({ pressed }) => [{ borderColor: pressed ? '#FF79C6' : "lightgrey" },
+                    styles.buttons]}>
+                    <Text style={styles.buttonText}>SignUp</Text>
+                </Pressable>
+                <Pressable onPress={() => handleLogin()}
+                    style={({ pressed }) => [{ borderColor: pressed ? '#FF79C6' : "lightgrey" },
+                    styles.buttons]}>
+                    <Text style={styles.buttonText}>Login</Text>
+                </Pressable>
+            </View>
             {loginMessage === null ?
                 null
                 :
@@ -60,12 +64,12 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: "center"
     },
     textH: {
         color: "#FF7B72",
         fontSize: 20,
-        margin: 10,
+        margin: 30,
         alignSelf: "center"
     },
     textBlue: {
@@ -76,7 +80,7 @@ const styles = StyleSheet.create({
         width: 200
     },
     buttons: {
-        marginBottom: 3,
+        margin: 15,
         width: 100,
         height: 40,
         borderRadius: 20,
@@ -88,5 +92,18 @@ const styles = StyleSheet.create({
     buttonText: {
         color: "#79C0FF",
         fontWeight: "600"
+    },
+    itemSeprator: {
+        height: 1,
+        marginBottom: 5,
+        marginRight: 15,
+        width: 200,
+        alignSelf: "center",
+        backgroundColor: "#FFA657",
+        opacity: 0.4
+    },
+    flexRow: {
+        flexDirection: "row",
+        margin: 30,
     },
 });

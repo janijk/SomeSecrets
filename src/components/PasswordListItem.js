@@ -22,10 +22,7 @@ export const PasswordListItem = ({ props, longPress }) => {
                 <Pressable
                     onLongPress={longPress}
                     onPress={() => setExpanded(!expanded)}
-                    style={({ pressed }) => [
-                        { backgroundColor: pressed ? 'rgb(210, 230, 255)' : null },
-                        styles.listItemPressable]
-                    }
+                    style={({ pressed }) => pressed ? styles.listItemPressablePressed : styles.listItemPressable}
                 >
                     <Text style={styles.listItemProvider}>{props.provider}</Text>
                     <Ionicons name={!expanded ? "md-chevron-down" : "md-chevron-up"} size={32} color="#FFA657" />
@@ -40,8 +37,7 @@ export const PasswordListItem = ({ props, longPress }) => {
                         </View>
                         <Pressable
                             onPress={() => copyToClipboard(props.username)}
-                            style={({ pressed }) => [{ backgroundColor: pressed ? 'rgb(210, 230, 255)' : null },
-                            styles.iconPressable]}
+                            style={({ pressed }) => pressed ? styles.iconPressablePressed : styles.iconPressable}
                         >
                             <Ionicons name="md-copy-outline" size={25} color="#FFA657" />
                         </Pressable>
@@ -53,8 +49,7 @@ export const PasswordListItem = ({ props, longPress }) => {
                         </View>
                         <Pressable
                             onPress={() => copyToClipboard(props.password)}
-                            style={({ pressed }) => [{ backgroundColor: pressed ? 'rgb(210, 230, 255)' : null },
-                            styles.iconPressable]}
+                            style={({ pressed }) => pressed ? styles.iconPressablePressed : styles.iconPressable}
                         >
                             <Ionicons name="md-copy-outline" size={25} color="#FFA657" />
                         </Pressable>
@@ -98,8 +93,20 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         alignItems: "center"
     },
+    listItemPressablePressed: {
+        flex: 1,
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        backgroundColor: "rgb(210, 230, 255)",
+        borderRadius: 20
+    },
     iconPressable: {
         borderRadius: 5
+    },
+    iconPressablePressed: {
+        backgroundColor: "rgb(210, 230, 255)",
+        borderRadius: 5,
     },
     flexRow: {
         flexDirection: "row"

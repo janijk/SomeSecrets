@@ -70,7 +70,7 @@ export const PasswordListScreen = () => {
     };
 
     return (
-        <SafeAreaView>
+        <SafeAreaView style={styles.container}>
             <View>
                 {!editView ?
                     <PasswordList data={credentials} longPress={(indx) => handleLongPress(indx)} />
@@ -95,9 +95,6 @@ export const PasswordListScreen = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
     },
     containerEdit: {
         flexDirection: "row",

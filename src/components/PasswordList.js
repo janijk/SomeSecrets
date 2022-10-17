@@ -54,6 +54,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#282A36",
         borderRadius: 20,
         margin: 5,
+        padding: 10
     },
     itemSeprator: {
         height: 1,

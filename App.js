@@ -31,7 +31,7 @@ export default function App() {
   return (
     <PersistGate loading={<SplashScreen />} persistor={persistor}>
       <NavigationContainer theme={MyTheme}>
-        <Stack.Navigator initialRouteName='login' screenOptions={{ headerShown: false }}>
+        <Stack.Navigator initialRouteName='login' screenOptions={{ headerShown: false, animation: 'slide_from_right' }}>
           {!isAuth ? (
             <>
               <Stack.Screen name="login" component={LoginScreen} />

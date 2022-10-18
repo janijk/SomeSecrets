@@ -54,7 +54,7 @@ export const LoginScreen = ({ navigation }) => {
             {loginMessage === null ?
                 null
                 :
-                <Text>{loginMessage}</Text>
+                <Text style={styles.errorMessage}>{loginMessage}</Text>
             }
         </SafeAreaView>
     )
@@ -106,4 +106,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         margin: 30,
     },
+    errorMessage: {
+        color: '#FF7B72',
+    }
 });

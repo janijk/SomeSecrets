@@ -67,7 +67,7 @@ export const SignUpScreen = ({ navigation }) => {
             {signupMessage === null ?
                 null
                 :
-                <Text>{signupMessage}</Text>
+                <Text style={styles.errorMessage}>{signupMessage}</Text>
             }
         </SafeAreaView>
     )
@@ -119,4 +119,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         margin: 30,
     },
+    errorMessage: {
+        color: '#FF7B72',
+    }
 });

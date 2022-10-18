@@ -31,7 +31,7 @@ export const PasswordList = ({ data, longPress }) => {
         <View style={styles.itemSeprator}></View>
     )
     const listEmpty = () => (
-        <View><Text style={styles.textBlue}>No saved passwords</Text></View>
+        <View style={styles.listHeader}><Text style={styles.textBlue}>No saved passwords</Text></View>
     )
 
     return (

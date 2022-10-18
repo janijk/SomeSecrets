@@ -19,7 +19,7 @@ export const HomeScreen = () => {
                 <Pressable onPress={() => handleSignout()}
                     style={({ pressed }) => [{ borderColor: pressed ? '#FF79C6' : "lightgrey" },
                     styles.buttons]}>
-                    <Text style={styles.buttonText}>Signout</Text>
+                    <Text style={styles.buttonText}>LogOut</Text>
                 </Pressable>
             </View>
         </SafeAreaView>
@@ -37,12 +37,6 @@ const styles = StyleSheet.create({
         height: 300,
         borderRadius: 150,
         opacity: 0.8,
-    },
-    dropShadow: {
-        shadowColor: '#000',
-        shadowOpacity: 0.5,
-        shadowRadius: 5,
-        elevation: 2,
     },
     textBlue: {
         color: "#79C0FF",

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { StyleSheet, View, Text, Button, TextInput, Pressable } from 'react-native';
+import { StyleSheet, View, Text, Button, TextInput, Pressable, ActivityIndicator } from 'react-native';
 import { generateNewPassword } from '../api/passwords';
 import { RadioButtonGroup } from '../components/RadioButtonGroup';
 import Slider from '@react-native-community/slider';
@@ -18,6 +18,7 @@ export const CreatePasswordScreen = () => {
     const [username, setUsername] = useState(null);
     const [password, setPassword] = useState(null);
     const [saved, setSaved] = useState(false);
+    const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
     const currentUser = useSelector(state => state.loader.user);
 
@@ -35,11 +36,13 @@ export const CreatePasswordScreen = () => {
 
     // Call api to fetch generated password according to options
     const generatePassword = async () => {
+        setLoading(true);
         const apiOptions = options.map((e) => { return JSON.parse(`{"${e.name}": ${e.value}}`) });
         apiOptions.push(JSON.parse(`{"len": ${length}}`))
         const obj = {};
         apiOptions.forEach(e => obj[Object.keys(e)] = Object.values(e).pop());
         setPassword(await generateNewPassword(obj));
+        setLoading(false);
     }
 
     // Save new credential
@@ -61,7 +64,7 @@ export const CreatePasswordScreen = () => {
         setProvider(null);
         setTimeout(() => {
             setSaved(false);
-        }, 2000);
+        }, 1000);
     }
 
     // Radiobutton onclick -> change boolean of value
@@ -88,10 +91,13 @@ export const CreatePasswordScreen = () => {
                         onValueChange={(sliderValue) => setLength(sliderValue)}
                     />
                 </View>
-                <Pressable onPress={() => generatePassword()}
+                <Pressable disabled={loading}
+                    onPress={() => generatePassword()}
                     style={({ pressed }) => [{ borderColor: pressed ? '#FF79C6' : "lightgrey" },
                     styles.buttons]}>
-                    <Text style={styles.buttonText}>Generate</Text>
+                    <Text style={styles.buttonText}>
+                        {loading ? <ActivityIndicator size="small" color="#0000ff" /> : `Generate`}
+                    </Text>
                 </Pressable>
             </View>
             <View style={styles.boxContainer}>

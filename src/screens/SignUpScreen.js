@@ -10,11 +10,13 @@ export const SignUpScreen = ({ navigation }) => {
     const [password, setPassword] = useState(null);
     const [passwordTwo, setPasswordTwo] = useState(null);
     const [signupMessage, setsignupMessage] = useState(null);
+    const [valid, setValid] = useState(true);
     const dispatch = useDispatch();
 
+    // Attempt to create account for user. On success set user as currently logged in user.
     const handleSignup = async () => {
         setsignupMessage(null);
-        if (password && password === passwordTwo) {
+        if (username && password && password === passwordTwo) {
             const result = await signup(username, password);
             if (result === username) {
                 dispatch(setUser(username));
@@ -22,7 +24,7 @@ export const SignUpScreen = ({ navigation }) => {
             } else {
                 setsignupMessage(result);
             }
-        }
+        } else setValid(false);
     }
 
     return (
@@ -32,26 +34,26 @@ export const SignUpScreen = ({ navigation }) => {
                 style={styles.textInputBlue}
                 value={username}
                 onChangeText={text => setUsername(text)}
-                placeholder="username"
-                placeholderTextColor={"#cde3f7"}>
+                placeholder={valid ? "username" : "*required"}
+                placeholderTextColor={valid ? "#cde3f7" : "red"}>
             </TextInput>
-            <View style={styles.itemSeprator}></View>
+            <View style={[styles.itemSeprator, !valid && !password && { backgroundColor: "red" }]}></View>
             <TextInput
                 style={styles.textInputBlue}
                 value={password}
                 onChangeText={text => setPassword(text)}
-                placeholder="password"
-                placeholderTextColor={"#cde3f7"}>
+                placeholder={valid ? "password" : "*required"}
+                placeholderTextColor={valid ? "#cde3f7" : "red"}>
             </TextInput>
-            <View style={styles.itemSeprator}></View>
+            <View style={[styles.itemSeprator, !valid && !password && { backgroundColor: "red" }]}></View>
             <TextInput
                 style={styles.textInputBlue}
                 value={passwordTwo}
                 onChangeText={text => setPasswordTwo(text)}
-                placeholder="retype password"
-                placeholderTextColor={"#cde3f7"}>
+                placeholder={valid ? "retype password" : "*required"}
+                placeholderTextColor={valid ? "#cde3f7" : "red"}>
             </TextInput>
-            <View style={styles.itemSeprator}></View>
+            <View style={[styles.itemSeprator, !valid && !password && { backgroundColor: "red" }]}></View>
             <View style={styles.flexRow}>
                 <Pressable onPress={() => navigation.goBack()}
                     style={({ pressed }) => [{ borderColor: pressed ? '#FF79C6' : "lightgrey" },
@@ -64,11 +66,7 @@ export const SignUpScreen = ({ navigation }) => {
                     <Text style={styles.buttonText}>Create</Text>
                 </Pressable>
             </View>
-            {signupMessage === null ?
-                null
-                :
-                <Text style={styles.errorMessage}>{signupMessage}</Text>
-            }
+            {signupMessage === null ? null : <Text style={styles.errorMessage}>{signupMessage}</Text>}
         </SafeAreaView>
     )
 }
@@ -84,9 +82,6 @@ const styles = StyleSheet.create({
         fontSize: 20,
         margin: 30,
         alignSelf: "center"
-    },
-    textBlue: {
-        color: "#79C0FF",
     },
     textInputBlue: {
         color: "#79C0FF",

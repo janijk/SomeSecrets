@@ -11,9 +11,18 @@ import * as Clipboard from 'expo-clipboard';
  */
 export const PasswordListItem = ({ props, longPress }) => {
     const [expanded, setExpanded] = useState(false);
+    const [copiedUn, setCopiedUn] = useState(false);
+    const [copiedPass, setCopiedPass] = useState(false);
 
-    const copyToClipboard = async (string) => {
+    // Copy username or password to clipboard and set indicator text visible for 1 sec
+    const copyToClipboard = async (string, boolean) => {
         await Clipboard.setStringAsync(string);
+        if (boolean) { setCopiedUn(true); setCopiedPass(false); }
+        if (!boolean) { setCopiedPass(true); setCopiedUn(false); }
+        setTimeout(() => {
+            setCopiedUn(false);
+            setCopiedPass(false);
+        }, 1000);
     };
 
     return (
@@ -36,9 +45,10 @@ export const PasswordListItem = ({ props, longPress }) => {
                             <Text style={styles.listItemText}>{`   ${props.username}`}</Text>
                         </View>
                         <Pressable
-                            onPress={() => copyToClipboard(props.username)}
+                            onPress={() => copyToClipboard(props.username, true)}
                             style={({ pressed }) => pressed ? styles.iconPressablePressed : styles.iconPressable}
                         >
+                            {copiedUn && <Text style={styles.copyTxt}>Copied</Text>}
                             <Ionicons name="md-copy-outline" size={25} color="#FFA657" />
                         </Pressable>
                     </View>
@@ -48,9 +58,10 @@ export const PasswordListItem = ({ props, longPress }) => {
                             <Text style={styles.listItemText}>{`    ${props.password}`}</Text>
                         </View>
                         <Pressable
-                            onPress={() => copyToClipboard(props.password)}
+                            onPress={() => copyToClipboard(props.password, false)}
                             style={({ pressed }) => pressed ? styles.iconPressablePressed : styles.iconPressable}
                         >
+                            {copiedPass && <Text style={styles.copyTxt}>Copied</Text>}
                             <Ionicons name="md-copy-outline" size={25} color="#FFA657" />
                         </Pressable>
                     </View>
@@ -81,7 +92,9 @@ const styles = StyleSheet.create({
     itemView: {
         flexDirection: "row",
         justifyContent: "space-between",
-        backgroundColor: "#282A36"
+        backgroundColor: "#282A36",
+        marginBottom: 3,
+        marginTop: 3
     },
     itemViewHeader: {
         flexDirection: "row",
@@ -110,5 +123,12 @@ const styles = StyleSheet.create({
     },
     flexRow: {
         flexDirection: "row"
+    },
+    copyTxt: {
+        position: "absolute",
+        width: 50,
+        top: 1,
+        right: 30,
+        color: "#cde3f7"
     }
 })

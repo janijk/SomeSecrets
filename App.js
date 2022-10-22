@@ -1,4 +1,4 @@
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { useSelector } from 'react-redux';
 import { persistor } from './src/redux/Store';
 import { PersistGate } from 'redux-persist/integration/react';
@@ -12,7 +12,6 @@ import { SplashScreen } from './src/screens/SplashScreen';
 export default function App() {
   const Stack = createNativeStackNavigator();
   const isAuth = useSelector(state => state.loader.isAuth);
-
   const MyTheme = {
     dark: true,
     colors: {

@@ -4,11 +4,14 @@ import { useDispatch } from 'react-redux';
 import { setIsAuth, setUser } from '../redux/loaderSlice';
 import { login } from '../utils/user.utils'
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { StatusBar } from 'expo-status-bar';
+import { AntDesign, Ionicons } from '@expo/vector-icons';
 
 export const LoginScreen = ({ navigation }) => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [loginMessage, setLoginMessage] = useState(null);
+    const [forgotten, setForgotten] = useState(false);
     const dispatch = useDispatch();
 
     const handleLogin = async () => {
@@ -30,7 +33,7 @@ export const LoginScreen = ({ navigation }) => {
                 placeholder="username"
                 placeholderTextColor={"#cde3f7"}>
             </TextInput>
-            <View style={styles.itemSeprator}></View>
+            <View style={[styles.itemSeprator, loginMessage && !password && { backgroundColor: "red" }]}></View>
             <TextInput
                 style={styles.textInputBlue}
                 value={password}
@@ -38,7 +41,7 @@ export const LoginScreen = ({ navigation }) => {
                 placeholder="password"
                 placeholderTextColor={"#cde3f7"}>
             </TextInput>
-            <View style={styles.itemSeprator}></View>
+            <View style={[styles.itemSeprator, loginMessage && !password && { backgroundColor: "red" }]}></View>
             <View style={styles.flexRow}>
                 <Pressable onPress={() => navigation.navigate('signup')}
                     style={({ pressed }) => [{ borderColor: pressed ? '#FF79C6' : "lightgrey" },
@@ -51,11 +54,15 @@ export const LoginScreen = ({ navigation }) => {
                     <Text style={styles.buttonText}>Login</Text>
                 </Pressable>
             </View>
-            {loginMessage === null ?
-                null
-                :
-                <Text style={styles.errorMessage}>{loginMessage}</Text>
-            }
+            {loginMessage === null ? null : <Text style={styles.errorMessage}>{loginMessage}</Text>}
+            <Pressable
+                onPress={() => setForgotten(!forgotten)}
+                style={styles.forgottenPressable}
+            >
+                {!forgotten ? <Text style={styles.forgottenTxt}>Forgot password? click here </Text> : <Text style={styles.forgottenTxt}>Tough Luck </Text>}
+                {!forgotten ? <AntDesign name="Safety" size={24} color="#FF79C6" /> : <Ionicons name="md-skull-sharp" size={24} color="#cde3f7" />}
+            </Pressable>
+            <StatusBar style="light" />
         </SafeAreaView>
     )
 }
@@ -66,14 +73,20 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: "center"
     },
+    forgottenPressable: {
+        position: "absolute",
+        bottom: 12,
+        opacity: 0.7,
+        flexDirection: "row"
+    },
+    forgottenTxt: {
+        color: "#79C0FF"
+    },
     textH: {
         color: "#FF7B72",
         fontSize: 20,
         margin: 30,
         alignSelf: "center"
-    },
-    textBlue: {
-        color: "#79C0FF",
     },
     textInputBlue: {
         color: "#79C0FF",
@@ -107,6 +120,8 @@ const styles = StyleSheet.create({
         margin: 30,
     },
     errorMessage: {
+        position: "absolute",
+        bottom: 300,
         color: '#FF7B72',
     }
 });

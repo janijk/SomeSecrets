@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { StyleSheet, View, Text, Button, TextInput, Pressable, ActivityIndicator } from 'react-native';
+import { StyleSheet, View, Text, TextInput, Pressable, ActivityIndicator } from 'react-native';
 import { generateNewPassword } from '../api/passwords';
 import { RadioButtonGroup } from '../components/RadioButtonGroup';
 import Slider from '@react-native-community/slider';
@@ -11,7 +11,6 @@ import { AntDesign } from '@expo/vector-icons';
 import * as Clipboard from 'expo-clipboard';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
-
 export const CreatePasswordScreen = () => {
     const [length, setLength] = useState(12);
     const [provider, setProvider] = useState(null);
@@ -19,11 +18,18 @@ export const CreatePasswordScreen = () => {
     const [password, setPassword] = useState(null);
     const [saved, setSaved] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [valid, setValid] = useState(true);
+    const [copiedPass, setCopiedPass] = useState(false);
     const dispatch = useDispatch();
     const currentUser = useSelector(state => state.loader.user);
 
+    // Copy password to clipboard and set indicator text visible for 1 sec
     const copyToClipboard = async (string) => {
+        setCopiedPass(true)
         await Clipboard.setStringAsync(string);
+        setTimeout(() => {
+            setCopiedPass(false);
+        }, 1000);
     };
 
     // Configurations for radio gutton group
@@ -55,13 +61,15 @@ export const CreatePasswordScreen = () => {
                 setSaved(true);
                 resetEntries();
             }
-        }
+        } else setValid(false);
     }
 
+    // Set everything back to default after password is saved
     const resetEntries = () => {
         setPassword(null);
         setUsername(null);
         setProvider(null);
+        setValid(true);
         setTimeout(() => {
             setSaved(false);
         }, 1000);
@@ -109,51 +117,50 @@ export const CreatePasswordScreen = () => {
                             style={styles.textInputBlue}
                             value={provider}
                             onChangeText={text => setProvider(text)}
-                            placeholder="provider name"
-                            placeholderTextColor={"#cde3f7"}></TextInput>
+                            placeholder={valid ? "provider name" : "*required"}
+                            placeholderTextColor={valid ? "#cde3f7" : "red"}>
+                        </TextInput>
                     </View>
-                    <View style={styles.itemSeprator}></View>
+                    <View style={[styles.itemSeprator, !valid && !provider && { backgroundColor: "red" }]}></View>
                     <View style={styles.flexRow}>
                         <Text style={styles.textOrange}>{`Username:    `}</Text>
                         <TextInput
                             style={styles.textInputBlue}
                             value={username}
                             onChangeText={text => setUsername(text)}
-                            placeholder="username"
-                            placeholderTextColor={"#cde3f7"}></TextInput>
+                            placeholder={valid ? "username" : "*required"}
+                            placeholderTextColor={valid ? "#cde3f7" : "red"}>
+                        </TextInput>
                     </View>
-                    <View style={styles.itemSeprator}></View>
+                    <View style={[styles.itemSeprator, !valid && !username && { backgroundColor: "red" }]}></View>
                     <View style={styles.flexRow}>
                         <Text style={styles.textOrange}>{`Password:     `}</Text>
                         <TextInput
                             style={styles.textInputBlue}
                             value={password}
                             onChangeText={text => setPassword(text)}
-                            placeholder="password"
-                            placeholderTextColor={"#cde3f7"}></TextInput>
+                            placeholder={valid ? "password" : "*required"}
+                            placeholderTextColor={valid ? "#cde3f7" : "red"}>
+                        </TextInput>
                         <Pressable
                             onPress={() => { password ? copyToClipboard(password) : null }}
                             style={({ pressed }) => [{ backgroundColor: pressed ? 'rgb(210, 230, 255)' : null },
                             styles.iconPressable]}
                         >
+                            {copiedPass && <Text style={styles.copyTxt}>Copied</Text>}
                             <Ionicons name="md-copy-outline" size={25} color={password ? "#FFA657" : "transparent"} />
                         </Pressable>
                     </View>
-                    <View style={styles.itemSeprator}></View>
+                    <View style={[styles.itemSeprator, !valid && !password && { backgroundColor: "red" }]}></View>
                 </View>
-
                 <Pressable title='save' onPress={() => save()} disabled={saved}
                     style={({ pressed }) => [{ borderColor: pressed ? '#FF79C6' : saved ? 'green' : "lightgrey" },
                     styles.buttons]}>
-                    {!saved ?
-                        <Text style={styles.buttonText}>Save</Text>
-                        :
-                        <AntDesign name="checkcircleo" size={24} color="green" />
-                    }
+                    {!saved ? <Text style={styles.buttonText}>Save</Text> : <AntDesign name="checkcircleo" size={24} color="green" />}
                 </Pressable>
             </View>
             <View style={{ flex: 1 }}></View>
-        </SafeAreaView>
+        </SafeAreaView >
     )
 }
 
@@ -169,15 +176,6 @@ const styles = StyleSheet.create({
     slider: {
         alignItems: 'center',
         justifyContent: 'center',
-    },
-    savedButtons: {
-        width: 100,
-        height: 40,
-        borderWidth: 1,
-        borderRadius: 20,
-        borderColor: "black",
-        backgroundColor: "lightgreen",
-        justifyContent: "center"
     },
     buttons: {
         margin: 20,
@@ -228,4 +226,11 @@ const styles = StyleSheet.create({
         marginLeft: 5,
         borderRadius: 5
     },
+    copyTxt: {
+        position: "absolute",
+        width: 50,
+        top: 1,
+        right: 30,
+        color: "#cde3f7"
+    }
 });

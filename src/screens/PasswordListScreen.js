@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, TextInput, Pressable, Button } from 'react-native';
+import { StyleSheet, View, Text, Pressable } from 'react-native';
 import { PasswordList } from '../components/PasswordList';
 import { EditCredential } from '../components/EditCredential';
 import { useSelector } from 'react-redux';
@@ -14,6 +14,7 @@ export const PasswordListScreen = () => {
     const currentUser = useSelector(state => state.loader.user);
     const reload = useSelector(state => state.loader.reload);
 
+    // Update credentials list on mount & everytime changes are made
     useEffect(() => {
         let mounted = true;
         const getCredentials = async () => {
@@ -54,7 +55,7 @@ export const PasswordListScreen = () => {
 
     // Handles saving of edited credential or its deletion.
     const handleAction = async (action) => {
-        if (action.delete == true) {                                // CHECK DELETION !!!!!!
+        if (action.delete == true) {
             let filtered = credentials.filter(e => e != credential);
             let result = await editCredentials(filtered, currentUser);
             if (result === undefined) setCredentials(filtered);
@@ -78,7 +79,7 @@ export const PasswordListScreen = () => {
                     <>
                         <EditCredential credential={credential} action={(action) => handleAction(action)} />
                         <View style={styles.containerEdit}>
-                            <View style={{ width: 75 }}></View>
+                            <View style={{ width: 55 }}></View>
                             <Pressable onPress={() => setEditView(!editView)}
                                 style={({ pressed }) => [{ borderColor: pressed ? '#FF79C6' : "lightgrey" },
                                 styles.buttons]}>
@@ -102,6 +103,7 @@ const styles = StyleSheet.create({
     },
     buttons: {
         marginBottom: 3,
+        marginTop: 15,
         width: 100,
         height: 40,
         borderRadius: 20,
@@ -111,6 +113,6 @@ const styles = StyleSheet.create({
     },
     buttonText: {
         color: "#79C0FF",
-        fontWeight: "600"
+        fontWeight: "600",
     },
 });

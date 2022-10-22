@@ -1,4 +1,4 @@
-import { FlatList, Text, View, Pressable, StyleSheet } from "react-native"
+import { FlatList, Text, View, StyleSheet } from "react-native"
 import { PasswordListItem } from '../components/PasswordListItem'
 import { AntDesign } from '@expo/vector-icons';
 
@@ -59,6 +59,7 @@ const styles = StyleSheet.create({
     itemSeprator: {
         height: 1,
         marginBottom: 5,
+        marginTop: 5,
         backgroundColor: "#FFA657",
         opacity: 0.5
     },

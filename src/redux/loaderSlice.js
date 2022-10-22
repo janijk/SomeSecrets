@@ -7,6 +7,7 @@ export const loaderSlice = createSlice({
         isAuth: false,
         isSignout: false,
         pinEnabled: false,
+        reload: false,
     },
     reducers: {
         setUser: (state, action) => {
@@ -27,7 +28,10 @@ export const loaderSlice = createSlice({
             state.isSignout = false;
             state.pinEnabled = false;
         },
+        reloadCredentials: (state, action) => {
+            state.reload = !state.reload;
+        },
     }
 })
-export const { setUser, setIsAuth, setIsSignout, setPinEnabled, resetState} = loaderSlice.actions
+export const { setUser, setIsAuth, setIsSignout, setPinEnabled, resetState, reloadCredentials } = loaderSlice.actions
 export default loaderSlice.reducer

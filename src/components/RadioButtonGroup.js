@@ -36,6 +36,7 @@ export const RadioButtonGroup = ({ options, onPress }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 0,
+        margin: 5,
         flexDirection: "row",
         borderColor: "black",
         justifyContent: "center",
@@ -44,9 +45,9 @@ const styles = StyleSheet.create({
         marginBottom: 3,
         width: 35,
         height: 35,
-        borderColor: "lightgrey",
+        borderColor: "#cde3f7",
         borderRadius: 20,
-        borderWidth: 5,
+        borderWidth: 4,
         justifyContent: "center",
         alignItems: "center",
         alignSelf: "center"
@@ -55,9 +56,9 @@ const styles = StyleSheet.create({
         marginBottom: 3,
         width: 35,
         height: 35,
-        borderColor: "lightgrey",
+        borderColor: "#cde3f7",
         borderRadius: 20,
-        borderWidth: 5,
+        borderWidth: 4,
         justifyContent: "center",
         alignItems: "center",
         alignSelf: "center",
@@ -65,7 +66,7 @@ const styles = StyleSheet.create({
     },
     text: {
         margin: 5,
-        color: "black",
+        color: "#79C0FF",
         alignItems: "center",
         alignSelf: "center"
     }

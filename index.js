@@ -1,9 +1,10 @@
 import { Provider } from 'react-redux';
 import { store } from './src/redux/Store';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { registerRootComponent } from 'expo';
 import App from './App';
 
-export default function Index() {
+const Index = () => {
     return (
         <Provider store={store}>
             <SafeAreaProvider>
@@ -12,3 +13,5 @@ export default function Index() {
         </Provider>
     )
 }
+
+export default registerRootComponent(Index)

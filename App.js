@@ -1,4 +1,3 @@
-import { StyleSheet } from 'react-native';
 import { useSelector } from 'react-redux';
 import { persistor } from './src/redux/Store';
 import { PersistGate } from 'redux-persist/integration/react';
@@ -41,12 +40,3 @@ export default function App() {
     </PersistGate>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#212121',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

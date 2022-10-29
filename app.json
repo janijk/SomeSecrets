@@ -2,12 +2,12 @@
   "expo": {
     "name": "sSecrets",
     "slug": "sSecrets",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/splash-lock.png",
       "resizeMode": "contain",
       "backgroundColor": "#212121"
     },
@@ -23,10 +23,10 @@
     "android": {
       "softwareKeyboardLayoutMode": "pan",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/lock-icon.png",
+        "foregroundImage": "./assets/adap-icon.png",
         "backgroundColor": "#212121"
       },
-      "versionCode": 2,
+      "versionCode": 3,
       "package": "com.jjk.sSecrets"
     },
     "web": {

@@ -1,6 +1,6 @@
 import { StyleSheet, View, Text, Pressable, Image } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
-import { setIsSignout, resetState } from '../redux/loaderSlice';
+import { useDispatch } from 'react-redux';
+import { resetState } from '../redux/loaderSlice';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 

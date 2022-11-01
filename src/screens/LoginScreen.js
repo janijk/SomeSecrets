@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, TextInput, Pressable } from 'react-native';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setIsAuth, setUser } from '../redux/loaderSlice';
 import { login } from '../utils/user.utils'
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -13,6 +13,11 @@ export const LoginScreen = ({ navigation }) => {
     const [loginMessage, setLoginMessage] = useState(null);
     const [forgotten, setForgotten] = useState(false);
     const dispatch = useDispatch();
+    const user = useSelector(state => state.loader.remember);
+
+    useEffect(() => {
+        setUsername(user);
+    }, [user])
 
     const handleLogin = async () => {
         const [error, isSuccess] = await login(username, password);
@@ -32,11 +37,13 @@ export const LoginScreen = ({ navigation }) => {
                 onChangeText={text => setUsername(text)}
                 placeholder="username"
                 placeholderTextColor={"#cde3f7"}>
+
             </TextInput>
             <View style={[styles.itemSeprator, loginMessage && !password && { backgroundColor: "red" }]}></View>
             <TextInput
                 style={styles.textInputBlue}
                 value={password}
+                secureTextEntry={true}
                 onChangeText={text => setPassword(text)}
                 placeholder="password"
                 placeholderTextColor={"#cde3f7"}>

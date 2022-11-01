@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { StyleSheet, View, Text, TextInput, Pressable, ActivityIndicator } from 'react-native';
-import { generateNewPassword } from '../api/passwords';
+import { randomGenerator } from '../utils/randomGenerator.utils';
 import { RadioButtonGroup } from '../components/RadioButtonGroup';
 import Slider from '@react-native-community/slider';
 import { createCredentials, addNewCredential } from '../utils/user.utils';
@@ -40,15 +40,17 @@ export const CreatePasswordScreen = () => {
         { name: "specials", value: true }
     ];
 
-    // Call api to fetch generated password according to options
-    const generatePassword = async () => {
+    // Generate random password according to options
+    const generatePassword = () => {
         setLoading(true);
-        const apiOptions = options.map((e) => { return JSON.parse(`{"${e.name}": ${e.value}}`) });
+        const apiOptions = options.map(e => { return JSON.parse(`{"${e.name}": ${e.value}}`) });
         apiOptions.push(JSON.parse(`{"len": ${length}}`))
         const obj = {};
         apiOptions.forEach(e => obj[Object.keys(e)] = Object.values(e).pop());
-        setPassword(await generateNewPassword(obj));
-        setLoading(false);
+        setTimeout(() => {
+            setPassword(randomGenerator(obj));
+            setLoading(false);
+        }, 500);
     }
 
     // Save new credential
@@ -104,7 +106,7 @@ export const CreatePasswordScreen = () => {
                     style={({ pressed }) => [{ borderColor: pressed ? '#FF79C6' : "lightgrey" },
                     styles.buttons]}>
                     <Text style={styles.buttonText}>
-                        {loading ? <ActivityIndicator size="small" color="#0000ff" /> : `Generate`}
+                        {loading ? <ActivityIndicator size="small" color="#FF79C6" /> : `Generate`}
                     </Text>
                 </Pressable>
             </View>

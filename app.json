@@ -2,10 +2,11 @@
   "expo": {
     "name": "sSecrets",
     "slug": "sSecrets",
-    "version": "1.0.3",
+    "version": "1.1.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/adap-icon.png",
     "userInterfaceStyle": "light",
+    "backgroundColor": "#212121",
     "splash": {
       "image": "./assets/splash-lock.png",
       "resizeMode": "contain",
@@ -26,11 +27,11 @@
         "foregroundImage": "./assets/adap-icon.png",
         "backgroundColor": "#212121"
       },
-      "versionCode": 3,
+      "splash": {
+        "backgroundColor": "#212121"
+      },
+      "versionCode": 5,
       "package": "com.jjk.sSecrets"
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
     },
     "extra": {
       "eas": {

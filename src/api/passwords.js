@@ -1,11 +1,10 @@
 import { APIUrls } from "../consts/APIUrls";
 
 /**
- * Fetches random password with provided params from password wolf API
- * 
+ * Fetches random password with provided params from password wolf API 
  * 
  * @param {*} props object
- * @returns password string or error.message
+ * @returns password string or error
  */
 export const generateNewPassword = async (props) => {
     const upper = props.uppers === true ? "on" : "off";
@@ -22,6 +21,6 @@ export const generateNewPassword = async (props) => {
         return result.pop().password;
     } catch (error) {
         console.log(error);
-        return error.message;
+        return error;
     }
 }

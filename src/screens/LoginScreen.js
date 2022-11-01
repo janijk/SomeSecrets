@@ -37,6 +37,7 @@ export const LoginScreen = ({ navigation }) => {
             <TextInput
                 style={styles.textInputBlue}
                 value={password}
+                secureTextEntry={true}
                 onChangeText={text => setPassword(text)}
                 placeholder="password"
                 placeholderTextColor={"#cde3f7"}>

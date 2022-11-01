@@ -2,7 +2,7 @@
   "expo": {
     "name": "sSecrets",
     "slug": "sSecrets",
-    "version": "1.1.0",
+    "version": "1.1.1",
     "orientation": "portrait",
     "icon": "./assets/adap-icon.png",
     "userInterfaceStyle": "light",
@@ -28,9 +28,11 @@
         "backgroundColor": "#212121"
       },
       "splash": {
+        "image": "./assets/splash-lock.png",
+        "resizeMode": "contain",
         "backgroundColor": "#212121"
       },
-      "versionCode": 5,
+      "versionCode": 6,
       "package": "com.jjk.sSecrets"
     },
     "extra": {

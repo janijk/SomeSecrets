@@ -1,17 +1,20 @@
 import { useState } from 'react';
 import { StyleSheet, View, Text, TextInput, Pressable, ActivityIndicator } from 'react-native';
+import { useSelector, useDispatch } from 'react-redux';
+import { createCredentials, addNewCredential, addEntryToHistory } from '../utils/user.utils';
 import { randomGenerator } from '../utils/randomGenerator.utils';
+import { timeStamp } from '../utils/time.utils';
 import { RadioButtonGroup } from '../components/RadioButtonGroup';
 import Slider from '@react-native-community/slider';
-import { createCredentials, addNewCredential } from '../utils/user.utils';
-import { useSelector, useDispatch } from 'react-redux';
 import { reloadCredentials } from '../redux/loaderSlice';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { AntDesign } from '@expo/vector-icons';
-import * as Clipboard from 'expo-clipboard';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { MaterialIcons } from '@expo/vector-icons';
+import { StatusBar } from 'expo-status-bar';
+import * as Clipboard from 'expo-clipboard';
 
-export const CreatePasswordScreen = () => {
+export const CreatePasswordScreen = ({ navigation }) => {
     const [length, setLength] = useState(12);
     const [provider, setProvider] = useState(null);
     const [username, setUsername] = useState(null);
@@ -22,23 +25,29 @@ export const CreatePasswordScreen = () => {
     const [copiedPass, setCopiedPass] = useState(false);
     const dispatch = useDispatch();
     const currentUser = useSelector(state => state.loader.user);
-
-    // Copy password to clipboard and set indicator text visible for 1 sec
-    const copyToClipboard = async (string) => {
-        setCopiedPass(true)
-        await Clipboard.setStringAsync(string);
-        setTimeout(() => {
-            setCopiedPass(false);
-        }, 1000);
-    };
-
-    // Configurations for radio gutton group
-    const options = [
+    const options = [// Configurations for radio gutton group
         { name: "uppers", value: true },
         { name: "lowers", value: true },
         { name: "numbers", value: true },
         { name: "specials", value: true }
     ];
+
+    // Radiobutton onclick -> change boolean of value
+    const handleClick = (indx) => {
+        options[indx].value = !options[indx].value;
+    }
+
+    // Copy password to clipboard, save it to history and set indicator text visible for 1 sec
+    const copyToClipboard = async (string) => {
+        setCopiedPass(true)
+        const generated = timeStamp();
+        generated.password = string;
+        await addEntryToHistory(generated, currentUser);
+        await Clipboard.setStringAsync(string);
+        setTimeout(() => {
+            setCopiedPass(false);
+        }, 1000);
+    };
 
     // Generate random password according to options
     const generatePassword = () => {
@@ -75,11 +84,6 @@ export const CreatePasswordScreen = () => {
         setTimeout(() => {
             setSaved(false);
         }, 1000);
-    }
-
-    // Radiobutton onclick -> change boolean of value
-    const handleClick = (indx) => {
-        options[indx].value = !options[indx].value;
     }
 
     return (
@@ -161,7 +165,17 @@ export const CreatePasswordScreen = () => {
                     {!saved ? <Text style={styles.buttonText}>Save</Text> : <AntDesign name="checkcircleo" size={24} color="green" />}
                 </Pressable>
             </View>
-            <View style={{ flex: 1 }}></View>
+            <View style={{ flex: 1, }}>
+                <Pressable onPress={() => navigation.navigate('history')}
+                    style={({ pressed }) => [{ borderColor: pressed ? '#FF79C6' : "lightgrey" },
+                    styles.buttons]}>
+                    <View style={[styles.flexRow, { alignItems: "center" }]}>
+                        <MaterialIcons style={{ marginRight: 3 }} name="history" size={22} color="#cde3f7" />
+                        <Text style={styles.buttonText}>History</Text>
+                    </View>
+                </Pressable>
+            </View>
+            <StatusBar style="light" />
         </SafeAreaView >
     )
 }
@@ -231,8 +245,8 @@ const styles = StyleSheet.create({
     copyTxt: {
         position: "absolute",
         width: 50,
-        top: 1,
-        right: 30,
+        top: 29,
+        right: 22,
         color: "#cde3f7"
     }
 });

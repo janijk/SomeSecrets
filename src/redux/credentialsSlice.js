@@ -4,6 +4,7 @@ export const credentialsSlice = createSlice({
     name: 'credentials',
     initialState: {
         credentials: true,
+        pwdHistory: []
     },
     reducers: {
         addCredential: (state, action) => {
@@ -14,8 +15,11 @@ export const credentialsSlice = createSlice({
         },
         removeCredential: (state, action) => {
             state.credentials = state.credentials.filter(cred => cred !== action.payload);
+        },
+        addToHistory: (state, action) => {
+            state.pwdHistory.push(action.payload);
         }
     }
 })
-export const { reloadCredentials, addCredential, removeCredential } = credentialsSlice.actions
+export const { reloadCredentials, addCredential, removeCredential, addToHistory } = credentialsSlice.actions
 export default credentialsSlice.reducer

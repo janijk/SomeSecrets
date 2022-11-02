@@ -96,3 +96,25 @@ export const editCredentials = async (creds, username = "") => {
         return error.message;
     }
 }
+
+/**
+ * Add new entry to history array
+ * @param {*} entry object: { date: , time: , password: }
+ * @param {*} username string
+ * @returns 
+ */
+export const addEntryToHistory = async (entry, username = "") => {
+    try {
+        const key = username + "History";
+        const existingHistory = await storageCheck(key);
+        if (existingHistory == false) await storageSave(key, [entry]);
+        else {
+            const prevHistory = await storageRead(key);
+            prevHistory.push(entry);
+            await storageSave(key, prevHistory);
+        }
+    } catch (error) {
+        console.log(`user.utils addToHistory error: ${error}`);
+        return error.message;
+    }
+}

@@ -96,8 +96,8 @@ export const PasswordListScreen = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        marginLeft: 3,
-        marginRight: 5
+        marginLeft: 4,
+        marginRight: 6
     },
     containerEdit: {
         flexDirection: "row",

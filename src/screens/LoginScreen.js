@@ -15,10 +15,12 @@ export const LoginScreen = ({ navigation }) => {
     const dispatch = useDispatch();
     const user = useSelector(state => state.loader.remember);
 
+    // Set username to last logged in user
     useEffect(() => {
         setUsername(user);
     }, [user])
 
+    // Attempt to log user in
     const handleLogin = async () => {
         const [error, isSuccess] = await login(username, password);
         if (error) setLoginMessage(error);
@@ -39,7 +41,7 @@ export const LoginScreen = ({ navigation }) => {
                 placeholderTextColor={"#cde3f7"}>
 
             </TextInput>
-            <View style={[styles.itemSeprator, loginMessage && !password && { backgroundColor: "red" }]}></View>
+            <View style={[styles.itemSeprator, loginMessage && !username && { backgroundColor: "red" }]}></View>
             <TextInput
                 style={styles.textInputBlue}
                 value={password}
@@ -61,12 +63,12 @@ export const LoginScreen = ({ navigation }) => {
                     <Text style={styles.buttonText}>Login</Text>
                 </Pressable>
             </View>
-            {loginMessage === null ? null : <Text style={styles.errorMessage}>{loginMessage}</Text>}
+            {loginMessage && <Text style={styles.errorMessage}>{loginMessage}</Text>}
             <Pressable
                 onPress={() => setForgotten(!forgotten)}
                 style={styles.forgottenPressable}
             >
-                {!forgotten ? <Text style={styles.forgottenTxt}>Forgot password? click here </Text> : <Text style={styles.forgottenTxt}>Tough Luck </Text>}
+                <Text style={styles.forgottenTxt}>{!forgotten ? `Forgot password? click here ` : `Tough Luck `}</Text>
                 {!forgotten ? <AntDesign name="Safety" size={24} color="#FF79C6" /> : <Ionicons name="md-skull-sharp" size={24} color="#cde3f7" />}
             </Pressable>
             <StatusBar style="light" />

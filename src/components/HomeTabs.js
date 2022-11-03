@@ -3,6 +3,7 @@ import { PasswordListScreen } from "../screens/PasswordListScreen"
 import { PwlsStackScreen } from './PwlsStack';
 import { HomeScreen } from "../screens/HomeScreen"
 import { AntDesign } from '@expo/vector-icons';
+import { MemoScreen } from '../screens/MemoScreen';
 
 export const HomeTabs = () => {
     const Tab = createBottomTabNavigator();
@@ -15,7 +16,9 @@ export const HomeTabs = () => {
 
                     if (route.name === 'home') {
                         iconName = focused ? 'home' : 'home';
-                    } else if (route.name === 'list') {
+                    } else if (route.name === 'memo') {
+                        iconName = focused ? 'book' : 'book';
+                    } else if (route.name === 'passwords') {
                         iconName = focused ? 'bars' : 'bars';
                     } else if (route.name === 'generate') {
                         iconName = focused ? 'key' : 'key';
@@ -26,7 +29,8 @@ export const HomeTabs = () => {
             })}
         >
             <Tab.Screen name="home" component={HomeScreen} />
-            <Tab.Screen name="list" component={PasswordListScreen} />
+            <Tab.Screen name="memo" component={MemoScreen} />
+            <Tab.Screen name="passwords" component={PasswordListScreen} />
             <Tab.Screen name="generate" component={PwlsStackScreen} />
         </Tab.Navigator>
     )

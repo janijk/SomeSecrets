@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { TextInput, Text, Pressable, StyleSheet, View, Alert } from "react-native"
 import { AntDesign } from '@expo/vector-icons';
+import { CustomButton } from "./CustomButton";
 
 export const EditCredential = ({ credential, action }) => {
     const [provider, setProvider] = useState(credential.provider);
@@ -59,15 +60,13 @@ export const EditCredential = ({ credential, action }) => {
             </View>
             <View style={[styles.itemSeprator, !valid && !password && { backgroundColor: "red" }]}></View>
             <View style={styles.buttonContainer}>
-                <Pressable
-                    onPress={() => onSave()}
-                    style={({ pressed }) => [{ borderColor: pressed ? '#FF79C6' : "lightgrey" }, styles.buttons]}
-                >
-                    <View style={[styles.flexRow, { alignItems: "center" }]}>
-                        <AntDesign style={{ marginRight: 5 }} name="checkcircleo" size={18} color="#cde3f7" />
-                        <Text style={styles.buttonText}>{` Save   `}</Text>
-                    </View>
-                </Pressable>
+                <CustomButton
+                    value={`  Save   `}
+                    iconSet={"AntDesign"}
+                    iconName={"checkcircleo"}
+                    iconSize={18}
+                    press={() => onSave()}
+                />
             </View>
         </View>
     )
@@ -101,20 +100,6 @@ const styles = StyleSheet.create({
         marginBottom: 5,
         alignSelf: "center",
     },
-    buttons: {
-        marginBottom: 3,
-        width: 100,
-        height: 40,
-        borderRadius: 20,
-        borderWidth: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        alignSelf: "center"
-    },
-    buttonText: {
-        color: "#79C0FF",
-        fontWeight: "600"
-    },
     flexRow: {
         flexDirection: "row",
     },
@@ -135,7 +120,4 @@ const styles = StyleSheet.create({
         width: 30,
         borderRadius: 20,
     },
-    deletePressable: {
-
-    }
 });

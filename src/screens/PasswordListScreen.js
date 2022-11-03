@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, Pressable } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { PasswordList } from '../components/PasswordList';
 import { EditCredential } from '../components/EditCredential';
 import { useSelector } from 'react-redux';
 import { storageRead } from '../utils/storage.utils';
 import { editCredentials } from '../utils/user.utils';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { AntDesign } from '@expo/vector-icons';
+import { CustomButton } from '../components/CustomButton';
 
 export const PasswordListScreen = () => {
     const [editView, setEditView] = useState(false);
@@ -80,15 +80,13 @@ export const PasswordListScreen = () => {
                     <>
                         <EditCredential credential={credential} action={(action) => handleAction(action)} />
                         <View style={styles.containerEdit}>
-                            <Pressable
-                                onPress={() => setEditView(!editView)}
-                                style={({ pressed }) => [{ borderColor: pressed ? '#FF79C6' : "lightgrey" }, styles.buttons]}
-                            >
-                                <View style={[styles.flexRow, { alignItems: "center" }]}>
-                                    <AntDesign style={{ marginRight: 4 }} name="closecircleo" size={18} color="#cde3f7" />
-                                    <Text style={styles.buttonText}>Cancel</Text>
-                                </View>
-                            </Pressable>
+                            <CustomButton
+                                value={` Cancel `}
+                                iconSet={"AntDesign"}
+                                iconName={"closecircleo"}
+                                iconSize={18}
+                                press={() => setEditView(!editView)}
+                            />
                         </View>
                     </>
                 }
@@ -105,23 +103,7 @@ const styles = StyleSheet.create({
     },
     containerEdit: {
         flexDirection: "row",
-        justifyContent: "space-around"
-    },
-    buttons: {
-        marginBottom: 3,
-        marginTop: 15,
-        width: 100,
-        height: 40,
-        borderRadius: 20,
-        borderWidth: 1,
-        justifyContent: "center",
-        alignItems: "center",
-    },
-    buttonText: {
-        color: "#79C0FF",
-        fontWeight: "600",
-    },
-    flexRow: {
-        flexDirection: "row",
+        justifyContent: "space-around",
+        marginTop: 20
     },
 });

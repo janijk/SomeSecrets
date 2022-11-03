@@ -118,3 +118,19 @@ export const addEntryToHistory = async (entry, username = "") => {
         return error.message;
     }
 }
+
+/**
+ * Save notes
+ * @param {*} notes 
+ * @param {*} username 
+ * @returns 
+ */
+export const saveNotes = async (notes, username = "") => {
+    try {
+        const key = username + "Notes";
+        await storageSave(key, notes);
+    } catch (error) {
+        console.log(`user.utils saveNotes error: ${error}`);
+        return error.message;
+    }
+}

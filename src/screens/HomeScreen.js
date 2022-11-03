@@ -1,9 +1,9 @@
-import { StyleSheet, View, Text, Pressable, Image } from 'react-native';
+import { StyleSheet, View, Image } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { resetState } from '../redux/loaderSlice';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
-import { AntDesign } from '@expo/vector-icons';
+import { CustomButton } from '../components/CustomButton';
 
 export const HomeScreen = () => {
     const dispatch = useDispatch();
@@ -18,15 +18,13 @@ export const HomeScreen = () => {
                 <Image style={styles.homeImage} source={require("../../assets/lock.png")}></Image>
             </View>
             <View style={styles.innerContainers}>
-                <Pressable onPress={() => handleSignout()}
-                    style={({ pressed }) => [{ borderColor: pressed ? '#FF79C6' : "lightgrey" },
-                    styles.buttons]}
-                >
-                    <View style={[styles.flexRow, { alignItems: "center" }]}>
-                        <AntDesign style={{ marginRight: 4 }} name="logout" size={18} color="#cde3f7" />
-                        <Text style={styles.buttonText}>Logout</Text>
-                    </View>
-                </Pressable>
+                <CustomButton
+                    value={`  Logout `}
+                    iconSet={"AntDesign"}
+                    iconName={"logout"}
+                    iconSize={18}
+                    press={() => handleSignout()}
+                />
             </View>
             <StatusBar style="light" />
         </SafeAreaView>
@@ -51,22 +49,5 @@ const styles = StyleSheet.create({
     innerContainers: {
         flex: 1,
         justifyContent: "center"
-    },
-    buttons: {
-        marginBottom: 3,
-        width: 100,
-        height: 40,
-        borderRadius: 20,
-        borderWidth: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        alignSelf: "center"
-    },
-    buttonText: {
-        color: "#79C0FF",
-        fontWeight: "600"
-    },
-    flexRow: {
-        flexDirection: "row",
     },
 });

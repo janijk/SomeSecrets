@@ -43,6 +43,6 @@ export const randomGenerator = ({ len, lowers, uppers, numbers, specials }) => {
         return generatePassword(len, lowers, uppers, numbers, specials);
     } catch (error) {
         console.log(error);
-        return error;
+        return error.message;
     }
 }

@@ -55,7 +55,7 @@ export const LoginScreen = ({ navigation }) => {
             <View style={[styles.flexRow, { marginTop: 30 }]}>
                 <View style={styles.buttonContainer}>
                     <CustomButton
-                        value={` Sign up `}
+                        value={`  Sign up `}
                         iconSet={"AntDesign"}
                         iconName={"adduser"}
                         iconSize={18}
@@ -64,7 +64,7 @@ export const LoginScreen = ({ navigation }) => {
                 </View>
                 <View style={styles.buttonContainer}>
                     <CustomButton
-                        value={` Login `}
+                        value={`  Login `}
                         iconSet={"AntDesign"}
                         iconName={"login"}
                         iconSize={18}

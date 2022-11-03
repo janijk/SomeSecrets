@@ -79,7 +79,6 @@ export const PasswordListScreen = () => {
                     <>
                         <EditCredential credential={credential} action={(action) => handleAction(action)} />
                         <View style={styles.containerEdit}>
-                            <View style={{ width: 55 }}></View>
                             <Pressable onPress={() => setEditView(!editView)}
                                 style={({ pressed }) => [{ borderColor: pressed ? '#FF79C6' : "lightgrey" },
                                 styles.buttons]}>

@@ -1,6 +1,11 @@
 import { View, FlatList, StyleSheet } from "react-native"
 import { HistoryListItem } from "./HistoryListItem"
 
+/**
+ * History of generated passwords
+ * @param {*} param0 
+ * @returns 
+ */
 export const HistoryList = ({ data }) => {
     const reversedData = data.reverse()
 

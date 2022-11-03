@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { View, Pressable, Text, StyleSheet } from "react-native";
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { FontAwesome } from '@expo/vector-icons';
 import * as Clipboard from 'expo-clipboard';
 
 /**
@@ -13,6 +14,9 @@ export const PasswordListItem = ({ props, longPress }) => {
     const [expanded, setExpanded] = useState(false);
     const [copiedUn, setCopiedUn] = useState(false);
     const [copiedPass, setCopiedPass] = useState(false);
+    const [iconName, setIconName] = useState(
+        FontAwesome.glyphMap.hasOwnProperty(props.provider.toLowerCase()) ? props.provider.toLowerCase() : "question"
+    );
 
     // Copy username or password to clipboard and set indicator text visible for 1 sec
     const copyToClipboard = async (string, boolean) => {
@@ -33,7 +37,10 @@ export const PasswordListItem = ({ props, longPress }) => {
                     onPress={() => setExpanded(!expanded)}
                     style={({ pressed }) => pressed ? styles.listItemPressablePressed : styles.listItemPressable}
                 >
-                    <Text style={styles.listItemProvider}>{props.provider}</Text>
+                    <View style={[styles.flexRow, { alignItems: "center" }]}>
+                        <FontAwesome name={iconName} size={24} color="whitesmoke" style={{ width: 25, textAlign: "center" }} />
+                        <Text style={styles.listItemProvider}>{` ${props.provider}`}</Text>
+                    </View>
                     <Ionicons name={!expanded ? "md-chevron-down" : "md-chevron-up"} size={32} color="#FFA657" />
                 </Pressable>
             </View>

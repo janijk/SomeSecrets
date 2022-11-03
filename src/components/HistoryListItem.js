@@ -61,11 +61,15 @@ const styles = StyleSheet.create({
         color: "#cde3f7"
     },
     iconPressable: {
-        borderRadius: 5
+        borderRadius: 5,
+        marginRight: 5,
+        alignSelf: "center"
     },
     iconPressablePressed: {
         backgroundColor: "rgb(210, 230, 255)",
         borderRadius: 5,
+        alignSelf: "center",
+        marginRight: 5
     },
     flexRow: {
         flexDirection: "row",

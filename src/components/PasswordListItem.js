@@ -47,7 +47,7 @@ export const PasswordListItem = ({ props, longPress }) => {
             {expanded ?
                 <>
                     <View style={styles.itemView}>
-                        <View style={styles.flexRow}>
+                        <View style={[styles.flexRow, { marginLeft: 5 }]}>
                             <Text style={styles.listItemTextOne}>Username:</Text>
                             <Text style={styles.listItemText}>{`   ${props.username}`}</Text>
                         </View>
@@ -60,7 +60,7 @@ export const PasswordListItem = ({ props, longPress }) => {
                         </Pressable>
                     </View>
                     <View style={styles.itemView}>
-                        <View style={styles.flexRow}>
+                        <View style={[styles.flexRow, { marginLeft: 5 }]}>
                             <Text style={styles.listItemTextOne}>Password:</Text>
                             <Text style={styles.listItemText}>{`    ${props.password}`}</Text>
                         </View>

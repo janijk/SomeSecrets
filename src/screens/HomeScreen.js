@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { resetState } from '../redux/loaderSlice';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
+import { AntDesign } from '@expo/vector-icons';
 
 export const HomeScreen = () => {
     const dispatch = useDispatch();
@@ -19,8 +20,12 @@ export const HomeScreen = () => {
             <View style={styles.innerContainers}>
                 <Pressable onPress={() => handleSignout()}
                     style={({ pressed }) => [{ borderColor: pressed ? '#FF79C6' : "lightgrey" },
-                    styles.buttons]}>
-                    <Text style={styles.buttonText}>LogOut</Text>
+                    styles.buttons]}
+                >
+                    <View style={[styles.flexRow, { alignItems: "center" }]}>
+                        <AntDesign style={{ marginRight: 4 }} name="logout" size={18} color="#cde3f7" />
+                        <Text style={styles.buttonText}>Logout</Text>
+                    </View>
                 </Pressable>
             </View>
             <StatusBar style="light" />
@@ -52,7 +57,7 @@ const styles = StyleSheet.create({
         width: 100,
         height: 40,
         borderRadius: 20,
-        borderWidth: 2,
+        borderWidth: 1,
         justifyContent: "center",
         alignItems: "center",
         alignSelf: "center"
@@ -60,5 +65,8 @@ const styles = StyleSheet.create({
     buttonText: {
         color: "#79C0FF",
         fontWeight: "600"
+    },
+    flexRow: {
+        flexDirection: "row",
     },
 });

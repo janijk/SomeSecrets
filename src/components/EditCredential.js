@@ -63,7 +63,10 @@ export const EditCredential = ({ credential, action }) => {
                     onPress={() => onSave()}
                     style={({ pressed }) => [{ borderColor: pressed ? '#FF79C6' : "lightgrey" }, styles.buttons]}
                 >
-                    <Text style={styles.buttonText}>Save</Text>
+                    <View style={[styles.flexRow, { alignItems: "center" }]}>
+                        <AntDesign style={{ marginRight: 5 }} name="checkcircleo" size={18} color="#cde3f7" />
+                        <Text style={styles.buttonText}>{` Save   `}</Text>
+                    </View>
                 </Pressable>
             </View>
         </View>
@@ -103,7 +106,7 @@ const styles = StyleSheet.create({
         width: 100,
         height: 40,
         borderRadius: 20,
-        borderWidth: 2,
+        borderWidth: 1,
         justifyContent: "center",
         alignItems: "center",
         alignSelf: "center"

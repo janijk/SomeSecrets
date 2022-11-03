@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import { storageRead } from '../utils/storage.utils';
 import { editCredentials } from '../utils/user.utils';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { AntDesign } from '@expo/vector-icons';
 
 export const PasswordListScreen = () => {
     const [editView, setEditView] = useState(false);
@@ -79,10 +80,14 @@ export const PasswordListScreen = () => {
                     <>
                         <EditCredential credential={credential} action={(action) => handleAction(action)} />
                         <View style={styles.containerEdit}>
-                            <Pressable onPress={() => setEditView(!editView)}
-                                style={({ pressed }) => [{ borderColor: pressed ? '#FF79C6' : "lightgrey" },
-                                styles.buttons]}>
-                                <Text style={styles.buttonText}>Cancel</Text>
+                            <Pressable
+                                onPress={() => setEditView(!editView)}
+                                style={({ pressed }) => [{ borderColor: pressed ? '#FF79C6' : "lightgrey" }, styles.buttons]}
+                            >
+                                <View style={[styles.flexRow, { alignItems: "center" }]}>
+                                    <AntDesign style={{ marginRight: 4 }} name="closecircleo" size={18} color="#cde3f7" />
+                                    <Text style={styles.buttonText}>Cancel</Text>
+                                </View>
                             </Pressable>
                         </View>
                     </>
@@ -108,12 +113,15 @@ const styles = StyleSheet.create({
         width: 100,
         height: 40,
         borderRadius: 20,
-        borderWidth: 2,
+        borderWidth: 1,
         justifyContent: "center",
         alignItems: "center",
     },
     buttonText: {
         color: "#79C0FF",
         fontWeight: "600",
+    },
+    flexRow: {
+        flexDirection: "row",
     },
 });

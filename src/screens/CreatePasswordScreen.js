@@ -8,11 +8,11 @@ import { RadioButtonGroup } from '../components/RadioButtonGroup';
 import Slider from '@react-native-community/slider';
 import { reloadCredentials } from '../redux/loaderSlice';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { AntDesign } from '@expo/vector-icons';
+import { AntDesign, MaterialIcons } from '@expo/vector-icons';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { MaterialIcons } from '@expo/vector-icons';
 import { StatusBar } from 'expo-status-bar';
 import * as Clipboard from 'expo-clipboard';
+import { CustomButton } from '../components/CustomButton';
 
 export const CreatePasswordScreen = ({ navigation }) => {
     const [length, setLength] = useState(12);
@@ -107,11 +107,13 @@ export const CreatePasswordScreen = ({ navigation }) => {
                 </View>
                 <Pressable disabled={loading}
                     onPress={() => generatePassword()}
-                    style={({ pressed }) => [{ borderColor: pressed ? '#FF79C6' : "lightgrey" },
-                    styles.buttons]}>
-                    <Text style={styles.buttonText}>
-                        {loading ? <ActivityIndicator size="small" color="#FF79C6" /> : `Generate`}
-                    </Text>
+                    style={({ pressed }) => [{ borderColor: pressed ? '#FF79C6' : "lightgrey" }, styles.buttons]}>
+                    <View style={[styles.flexRow, { alignItems: "center" }]}>
+                        {!loading && <MaterialIcons style={{ marginRight: 1 }} name="autorenew" size={19} color="#cde3f7" />}
+                        <Text style={styles.buttonText}>
+                            {loading ? <ActivityIndicator size="small" color="#FF79C6" /> : `Generate `}
+                        </Text>
+                    </View>
                 </Pressable>
             </View>
             <View style={styles.boxContainer}>
@@ -159,21 +161,25 @@ export const CreatePasswordScreen = ({ navigation }) => {
                     </View>
                     <View style={[styles.itemSeprator, !valid && !password && { backgroundColor: "red" }]}></View>
                 </View>
-                <Pressable title='save' onPress={() => save()} disabled={saved}
+                <Pressable onPress={() => save()} disabled={saved}
                     style={({ pressed }) => [{ borderColor: pressed ? '#FF79C6' : saved ? 'green' : "lightgrey" },
                     styles.buttons]}>
-                    {!saved ? <Text style={styles.buttonText}>Save</Text> : <AntDesign name="checkcircleo" size={24} color="green" />}
-                </Pressable>
-            </View>
-            <View style={{ flex: 1, }}>
-                <Pressable onPress={() => navigation.navigate('history')}
-                    style={({ pressed }) => [{ borderColor: pressed ? '#FF79C6' : "lightgrey" },
-                    styles.buttons]}>
                     <View style={[styles.flexRow, { alignItems: "center" }]}>
-                        <MaterialIcons style={{ marginRight: 3 }} name="history" size={22} color="#cde3f7" />
-                        <Text style={styles.buttonText}>History</Text>
+                        {!saved && <AntDesign style={{ marginRight: 5 }} name="checkcircleo" size={18} color="#cde3f7" />}
+                        {!saved ? <Text style={styles.buttonText}>{` Save   `}</Text> : <AntDesign name="checkcircleo" size={24} color="green" />}
                     </View>
                 </Pressable>
+            </View>
+            <View style={{ flex: 1 }}>
+                <View style={{ marginTop: 30 }}>
+                    <CustomButton
+                        value={` History `}
+                        iconSet={"MaterialIcons"}
+                        iconName={"history"}
+                        iconSize={22}
+                        press={() => navigation.navigate('history')}
+                    />
+                </View>
             </View>
             <StatusBar style="light" />
         </SafeAreaView >
@@ -194,11 +200,12 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     buttons: {
-        margin: 20,
+        marginTop: 25,
+        marginBottom: 15,
         width: 100,
         height: 40,
         borderRadius: 20,
-        borderWidth: 2,
+        borderWidth: 1,
         justifyContent: "center",
         alignItems: "center",
         alignSelf: "center"

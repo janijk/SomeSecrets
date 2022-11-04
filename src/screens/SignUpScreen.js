@@ -1,9 +1,10 @@
 import { useState } from 'react';
-import { StyleSheet, View, Text, TextInput, Pressable } from 'react-native';
+import { StyleSheet, View, Text, TextInput } from 'react-native';
 import { signup } from '../utils/user.utils'
 import { useDispatch } from "react-redux";
 import { setIsAuth, setUser } from "../redux/loaderSlice";
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { CustomButton } from '../components/CustomButton';
 
 export const SignUpScreen = ({ navigation }) => {
     const [username, setUsername] = useState(null);
@@ -55,18 +56,15 @@ export const SignUpScreen = ({ navigation }) => {
             </TextInput>
             <View style={[styles.itemSeprator, !valid && !password && { backgroundColor: "red" }]}></View>
             <View style={styles.flexRow}>
-                <Pressable onPress={() => navigation.goBack()}
-                    style={({ pressed }) => [{ borderColor: pressed ? '#FF79C6' : "lightgrey" },
-                    styles.buttons]}>
-                    <Text style={styles.buttonText}>Back</Text>
-                </Pressable>
-                <Pressable onPress={() => handleSignup()}
-                    style={({ pressed }) => [{ borderColor: pressed ? '#FF79C6' : "lightgrey" },
-                    styles.buttons]}>
-                    <Text style={styles.buttonText}>Create</Text>
-                </Pressable>
+                <CustomButton
+                    value={` Create `}
+                    iconSet={"AntDesign"}
+                    iconName={"adduser"}
+                    iconSize={18}
+                    press={() => handleSignup()}
+                />
             </View>
-            {signupMessage === null ? null : <Text style={styles.errorMessage}>{signupMessage}</Text>}
+            {signupMessage && <Text style={styles.errorMessage}>{signupMessage}</Text>}
         </SafeAreaView>
     )
 }
@@ -87,20 +85,6 @@ const styles = StyleSheet.create({
         color: "#79C0FF",
         width: 200
     },
-    buttons: {
-        margin: 15,
-        width: 100,
-        height: 40,
-        borderRadius: 20,
-        borderWidth: 2,
-        justifyContent: "center",
-        alignItems: "center",
-        alignSelf: "center"
-    },
-    buttonText: {
-        color: "#79C0FF",
-        fontWeight: "600"
-    },
     itemSeprator: {
         height: 1,
         marginBottom: 5,
@@ -112,7 +96,8 @@ const styles = StyleSheet.create({
     },
     flexRow: {
         flexDirection: "row",
-        margin: 30,
+        marginTop: 30,
+        marginBottom: 80
     },
     errorMessage: {
         color: '#FF7B72',

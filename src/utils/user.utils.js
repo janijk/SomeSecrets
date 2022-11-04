@@ -1,5 +1,5 @@
 import { encryption } from "./encryption.utils"
-import { storageRead, storageSave, storageCheck } from "./storage.utils"
+import { storageRead, storageSave, storageCheck, asyncStorageCheck, asyncStorageRead, asyncStorageSave } from "./storage.utils"
 import { user } from '../consts/user'
 import { credential } from '../consts/credential'
 
@@ -93,6 +93,45 @@ export const editCredentials = async (creds, username = "") => {
         await storageSave(username, user);
     } catch (error) {
         console.log(`user.utils editCredentials error: ${error}`);
+        return error.message;
+    }
+}
+
+/**
+ * Add new entry to history array, holds 50 newest entries
+ * @param {*} entry object: { date: , time: , password: }
+ * @param {*} username string
+ * @returns 
+ */
+export const addEntryToHistory = async (entry, username = "") => {
+    try {
+        const key = username + "History";
+        const existingHistory = await asyncStorageCheck(key);
+        if (existingHistory == false) await asyncStorageSave(key, [entry]);
+        else {
+            const prevHistory = await asyncStorageRead(key);
+            if (prevHistory.length >= 50) prevHistory.shift()
+            prevHistory.push(entry);
+            await asyncStorageSave(key, prevHistory);
+        }
+    } catch (error) {
+        console.log(`user.utils addToHistory error: ${error}`);
+        return error.message;
+    }
+}
+
+/**
+ * Save notes
+ * @param {*} notes 
+ * @param {*} username 
+ * @returns 
+ */
+export const saveNotes = async (notes, username = "") => {
+    try {
+        const key = username + "Notes";
+        await storageSave(key, notes);
+    } catch (error) {
+        console.log(`user.utils saveNotes error: ${error}`);
         return error.message;
     }
 }

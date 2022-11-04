@@ -1,6 +1,7 @@
 import { APIUrls } from "../consts/APIUrls";
 
 /**
+ * -------  Deprecated  ------
  * Fetches random password with provided params from password wolf API 
  * 
  * @param {*} props object

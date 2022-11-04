@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { TextInput, Text, Pressable, StyleSheet, View, Alert } from "react-native"
+import { AntDesign } from '@expo/vector-icons';
+import { CustomButton } from "./CustomButton";
 
 export const EditCredential = ({ credential, action }) => {
     const [provider, setProvider] = useState(credential.provider);
@@ -19,7 +21,17 @@ export const EditCredential = ({ credential, action }) => {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.textDarkRed}>Edit info</Text>
+            <View style={[styles.flexRow, { justifyContent: "center" }]}>
+                <Text style={styles.textDarkRed}>Edit info</Text>
+                <View style={styles.delete}>
+                    <Pressable
+                        onPress={() => confirmDelete()}
+                        android_ripple={{ color: "#FF79C6", borderless: true }}
+                    >
+                        <AntDesign name="delete" size={20} color={"#79C0FF"} />
+                    </Pressable>
+                </View>
+            </View>
             <View style={styles.flexRow}>
                 <Text style={styles.textOrange}>{`Provider:       `}</Text>
                 <TextInput
@@ -48,18 +60,13 @@ export const EditCredential = ({ credential, action }) => {
             </View>
             <View style={[styles.itemSeprator, !valid && !password && { backgroundColor: "red" }]}></View>
             <View style={styles.buttonContainer}>
-                <Pressable
-                    onPress={() => confirmDelete()}
-                    style={({ pressed }) => [{ borderColor: pressed ? '#FF79C6' : "lightgrey" }, styles.buttons]}
-                >
-                    <Text style={styles.buttonText}>Delete</Text>
-                </Pressable>
-                <Pressable
-                    onPress={() => onSave()}
-                    style={({ pressed }) => [{ borderColor: pressed ? '#FF79C6' : "lightgrey" }, styles.buttons]}
-                >
-                    <Text style={styles.buttonText}>Save</Text>
-                </Pressable>
+                <CustomButton
+                    value={`  Save   `}
+                    iconSet={"AntDesign"}
+                    iconName={"checkcircleo"}
+                    iconSize={18}
+                    press={() => onSave()}
+                />
             </View>
         </View>
     )
@@ -91,21 +98,7 @@ const styles = StyleSheet.create({
         color: "#FF7B72",
         fontSize: 20,
         marginBottom: 5,
-        alignSelf: "center"
-    },
-    buttons: {
-        marginBottom: 3,
-        width: 100,
-        height: 40,
-        borderRadius: 20,
-        borderWidth: 2,
-        justifyContent: "center",
-        alignItems: "center",
-        alignSelf: "center"
-    },
-    buttonText: {
-        color: "#79C0FF",
-        fontWeight: "600"
+        alignSelf: "center",
     },
     flexRow: {
         flexDirection: "row",
@@ -117,5 +110,14 @@ const styles = StyleSheet.create({
         alignSelf: "center",
         backgroundColor: "#FFA657",
         opacity: 0.4
+    },
+    delete: {
+        position: "absolute",
+        alignItems: "center",
+        justifyContent: "center",
+        right: 5,
+        height: 30,
+        width: 30,
+        borderRadius: 20,
     },
 });

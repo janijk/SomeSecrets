@@ -1,17 +1,20 @@
 import { useState } from 'react';
 import { StyleSheet, View, Text, TextInput, Pressable, ActivityIndicator } from 'react-native';
+import { useSelector, useDispatch } from 'react-redux';
+import { createCredentials, addNewCredential, addEntryToHistory } from '../utils/user.utils';
 import { randomGenerator } from '../utils/randomGenerator.utils';
+import { timeStamp } from '../utils/time.utils';
 import { RadioButtonGroup } from '../components/RadioButtonGroup';
 import Slider from '@react-native-community/slider';
-import { createCredentials, addNewCredential } from '../utils/user.utils';
-import { useSelector, useDispatch } from 'react-redux';
 import { reloadCredentials } from '../redux/loaderSlice';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { AntDesign } from '@expo/vector-icons';
-import * as Clipboard from 'expo-clipboard';
+import { AntDesign, MaterialIcons } from '@expo/vector-icons';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { StatusBar } from 'expo-status-bar';
+import * as Clipboard from 'expo-clipboard';
+import { CustomButton } from '../components/CustomButton';
 
-export const CreatePasswordScreen = () => {
+export const CreatePasswordScreen = ({ navigation }) => {
     const [length, setLength] = useState(12);
     const [provider, setProvider] = useState(null);
     const [username, setUsername] = useState(null);
@@ -22,23 +25,29 @@ export const CreatePasswordScreen = () => {
     const [copiedPass, setCopiedPass] = useState(false);
     const dispatch = useDispatch();
     const currentUser = useSelector(state => state.loader.user);
-
-    // Copy password to clipboard and set indicator text visible for 1 sec
-    const copyToClipboard = async (string) => {
-        setCopiedPass(true)
-        await Clipboard.setStringAsync(string);
-        setTimeout(() => {
-            setCopiedPass(false);
-        }, 1000);
-    };
-
-    // Configurations for radio gutton group
-    const options = [
+    const options = [// Configurations for radio gutton group
         { name: "uppers", value: true },
         { name: "lowers", value: true },
         { name: "numbers", value: true },
         { name: "specials", value: true }
     ];
+
+    // Radiobutton onclick -> change boolean of value
+    const handleClick = (indx) => {
+        options[indx].value = !options[indx].value;
+    }
+
+    // Copy password to clipboard, save it to history and set indicator text visible for 1 sec
+    const copyToClipboard = async (string) => {
+        setCopiedPass(true)
+        const generated = timeStamp();
+        generated.password = string;
+        await addEntryToHistory(generated, currentUser);
+        await Clipboard.setStringAsync(string);
+        setTimeout(() => {
+            setCopiedPass(false);
+        }, 1000);
+    };
 
     // Generate random password according to options
     const generatePassword = () => {
@@ -77,11 +86,6 @@ export const CreatePasswordScreen = () => {
         }, 1000);
     }
 
-    // Radiobutton onclick -> change boolean of value
-    const handleClick = (indx) => {
-        options[indx].value = !options[indx].value;
-    }
-
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <View style={styles.boxContainer}>
@@ -103,11 +107,13 @@ export const CreatePasswordScreen = () => {
                 </View>
                 <Pressable disabled={loading}
                     onPress={() => generatePassword()}
-                    style={({ pressed }) => [{ borderColor: pressed ? '#FF79C6' : "lightgrey" },
-                    styles.buttons]}>
-                    <Text style={styles.buttonText}>
-                        {loading ? <ActivityIndicator size="small" color="#FF79C6" /> : `Generate`}
-                    </Text>
+                    style={({ pressed }) => [{ borderColor: pressed ? '#FF79C6' : "lightgrey" }, styles.buttons]}>
+                    <View style={[styles.flexRow, { alignItems: "center" }]}>
+                        {!loading && <MaterialIcons style={{ marginRight: 1 }} name="autorenew" size={19} color="#cde3f7" />}
+                        <Text style={styles.buttonText}>
+                            {loading ? <ActivityIndicator size="small" color="#FF79C6" /> : `Generate `}
+                        </Text>
+                    </View>
                 </Pressable>
             </View>
             <View style={styles.boxContainer}>
@@ -146,8 +152,7 @@ export const CreatePasswordScreen = () => {
                         </TextInput>
                         <Pressable
                             onPress={() => { password ? copyToClipboard(password) : null }}
-                            style={({ pressed }) => [{ backgroundColor: pressed ? 'rgb(210, 230, 255)' : null },
-                            styles.iconPressable]}
+                            android_ripple={{ color: "#FF79C6", borderless: true }}
                         >
                             {copiedPass && <Text style={styles.copyTxt}>Copied</Text>}
                             <Ionicons name="md-copy-outline" size={25} color={password ? "#FFA657" : "transparent"} />
@@ -155,13 +160,27 @@ export const CreatePasswordScreen = () => {
                     </View>
                     <View style={[styles.itemSeprator, !valid && !password && { backgroundColor: "red" }]}></View>
                 </View>
-                <Pressable title='save' onPress={() => save()} disabled={saved}
+                <Pressable onPress={() => save()} disabled={saved}
                     style={({ pressed }) => [{ borderColor: pressed ? '#FF79C6' : saved ? 'green' : "lightgrey" },
                     styles.buttons]}>
-                    {!saved ? <Text style={styles.buttonText}>Save</Text> : <AntDesign name="checkcircleo" size={24} color="green" />}
+                    <View style={[styles.flexRow, { alignItems: "center" }]}>
+                        {!saved && <AntDesign style={{ marginRight: 5 }} name="checkcircleo" size={18} color="#cde3f7" />}
+                        {!saved ? <Text style={styles.buttonText}>{` Save   `}</Text> : <AntDesign name="checkcircleo" size={24} color="green" />}
+                    </View>
                 </Pressable>
             </View>
-            <View style={{ flex: 1 }}></View>
+            <View style={{ flex: 1 }}>
+                <View style={{ marginTop: 30 }}>
+                    <CustomButton
+                        value={` History `}
+                        iconSet={"MaterialIcons"}
+                        iconName={"history"}
+                        iconSize={22}
+                        press={() => navigation.navigate('history')}
+                    />
+                </View>
+            </View>
+            <StatusBar style="light" />
         </SafeAreaView >
     )
 }
@@ -180,11 +199,12 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     buttons: {
-        margin: 20,
+        marginTop: 25,
+        marginBottom: 15,
         width: 100,
         height: 40,
         borderRadius: 20,
-        borderWidth: 2,
+        borderWidth: 1,
         justifyContent: "center",
         alignItems: "center",
         alignSelf: "center"
@@ -224,15 +244,11 @@ const styles = StyleSheet.create({
         backgroundColor: "#FFA657",
         opacity: 0.4
     },
-    iconPressable: {
-        marginLeft: 5,
-        borderRadius: 5
-    },
     copyTxt: {
         position: "absolute",
         width: 50,
-        top: 1,
-        right: 30,
+        top: 29,
+        right: 22,
         color: "#cde3f7"
     }
 });

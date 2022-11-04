@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, Pressable } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { PasswordList } from '../components/PasswordList';
 import { EditCredential } from '../components/EditCredential';
 import { useSelector } from 'react-redux';
 import { storageRead } from '../utils/storage.utils';
 import { editCredentials } from '../utils/user.utils';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { CustomButton } from '../components/CustomButton';
 
 export const PasswordListScreen = () => {
     const [editView, setEditView] = useState(false);
@@ -79,12 +80,13 @@ export const PasswordListScreen = () => {
                     <>
                         <EditCredential credential={credential} action={(action) => handleAction(action)} />
                         <View style={styles.containerEdit}>
-                            <View style={{ width: 55 }}></View>
-                            <Pressable onPress={() => setEditView(!editView)}
-                                style={({ pressed }) => [{ borderColor: pressed ? '#FF79C6' : "lightgrey" },
-                                styles.buttons]}>
-                                <Text style={styles.buttonText}>Cancel</Text>
-                            </Pressable>
+                            <CustomButton
+                                value={` Cancel `}
+                                iconSet={"AntDesign"}
+                                iconName={"closecircleo"}
+                                iconSize={18}
+                                press={() => setEditView(!editView)}
+                            />
                         </View>
                     </>
                 }
@@ -96,25 +98,12 @@ export const PasswordListScreen = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        marginLeft: 3,
-        marginRight: 5
+        marginLeft: 4,
+        marginRight: 6
     },
     containerEdit: {
         flexDirection: "row",
-        justifyContent: "space-around"
-    },
-    buttons: {
-        marginBottom: 3,
-        marginTop: 15,
-        width: 100,
-        height: 40,
-        borderRadius: 20,
-        borderWidth: 2,
-        justifyContent: "center",
-        alignItems: "center",
-    },
-    buttonText: {
-        color: "#79C0FF",
-        fontWeight: "600",
+        justifyContent: "space-around",
+        marginTop: 20
     },
 });

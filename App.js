@@ -30,7 +30,7 @@ export default function App() {
           {!isAuth ? (
             <>
               <Stack.Screen name="login" component={LoginScreen} />
-              <Stack.Screen name="signup" component={SignUpScreen} />
+              <Stack.Screen name="Sign up" component={SignUpScreen} options={{ headerShown: true }} />
             </>
           ) : (
             <Stack.Screen name='hometabs' component={HomeTabs} />

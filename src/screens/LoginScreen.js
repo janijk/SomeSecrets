@@ -6,6 +6,7 @@ import { login } from '../utils/user.utils'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { AntDesign, Ionicons } from '@expo/vector-icons';
+import { CustomButton } from '../components/CustomButton';
 
 export const LoginScreen = ({ navigation }) => {
     const [username, setUsername] = useState("");
@@ -15,10 +16,12 @@ export const LoginScreen = ({ navigation }) => {
     const dispatch = useDispatch();
     const user = useSelector(state => state.loader.remember);
 
+    // Set username to last logged in user
     useEffect(() => {
         setUsername(user);
     }, [user])
 
+    // Attempt to log user in
     const handleLogin = async () => {
         const [error, isSuccess] = await login(username, password);
         if (error) setLoginMessage(error);
@@ -39,7 +42,7 @@ export const LoginScreen = ({ navigation }) => {
                 placeholderTextColor={"#cde3f7"}>
 
             </TextInput>
-            <View style={[styles.itemSeprator, loginMessage && !password && { backgroundColor: "red" }]}></View>
+            <View style={[styles.itemSeprator, loginMessage && !username && { backgroundColor: "red" }]}></View>
             <TextInput
                 style={styles.textInputBlue}
                 value={password}
@@ -49,24 +52,32 @@ export const LoginScreen = ({ navigation }) => {
                 placeholderTextColor={"#cde3f7"}>
             </TextInput>
             <View style={[styles.itemSeprator, loginMessage && !password && { backgroundColor: "red" }]}></View>
-            <View style={styles.flexRow}>
-                <Pressable onPress={() => navigation.navigate('signup')}
-                    style={({ pressed }) => [{ borderColor: pressed ? '#FF79C6' : "lightgrey" },
-                    styles.buttons]}>
-                    <Text style={styles.buttonText}>SignUp</Text>
-                </Pressable>
-                <Pressable onPress={() => handleLogin()}
-                    style={({ pressed }) => [{ borderColor: pressed ? '#FF79C6' : "lightgrey" },
-                    styles.buttons]}>
-                    <Text style={styles.buttonText}>Login</Text>
-                </Pressable>
+            <View style={[styles.flexRow, { marginTop: 30 }]}>
+                <View style={styles.buttonContainer}>
+                    <CustomButton
+                        value={`  Sign up `}
+                        iconSet={"AntDesign"}
+                        iconName={"adduser"}
+                        iconSize={18}
+                        press={() => navigation.navigate('Sign up')}
+                    />
+                </View>
+                <View style={styles.buttonContainer}>
+                    <CustomButton
+                        value={`  Login `}
+                        iconSet={"AntDesign"}
+                        iconName={"login"}
+                        iconSize={18}
+                        press={() => handleLogin()}
+                    />
+                </View>
             </View>
-            {loginMessage === null ? null : <Text style={styles.errorMessage}>{loginMessage}</Text>}
+            {loginMessage && <Text style={styles.errorMessage}>{loginMessage}</Text>}
             <Pressable
                 onPress={() => setForgotten(!forgotten)}
                 style={styles.forgottenPressable}
             >
-                {!forgotten ? <Text style={styles.forgottenTxt}>Forgot password? click here </Text> : <Text style={styles.forgottenTxt}>Tough Luck </Text>}
+                <Text style={styles.forgottenTxt}>{!forgotten ? `Forgot password? click here ` : `Tough Luck `}</Text>
                 {!forgotten ? <AntDesign name="Safety" size={24} color="#FF79C6" /> : <Ionicons name="md-skull-sharp" size={24} color="#cde3f7" />}
             </Pressable>
             <StatusBar style="light" />
@@ -89,6 +100,9 @@ const styles = StyleSheet.create({
     forgottenTxt: {
         color: "#79C0FF"
     },
+    buttonContainer: {
+        margin: 6
+    },
     textH: {
         color: "#FF7B72",
         fontSize: 20,
@@ -98,20 +112,6 @@ const styles = StyleSheet.create({
     textInputBlue: {
         color: "#79C0FF",
         width: 200
-    },
-    buttons: {
-        margin: 15,
-        width: 100,
-        height: 40,
-        borderRadius: 20,
-        borderWidth: 2,
-        justifyContent: "center",
-        alignItems: "center",
-        alignSelf: "center"
-    },
-    buttonText: {
-        color: "#79C0FF",
-        fontWeight: "600"
     },
     itemSeprator: {
         height: 1,
@@ -124,7 +124,6 @@ const styles = StyleSheet.create({
     },
     flexRow: {
         flexDirection: "row",
-        margin: 30,
     },
     errorMessage: {
         position: "absolute",

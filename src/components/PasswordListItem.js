@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { View, Pressable, Text, StyleSheet } from "react-native";
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { AntDesign } from '@expo/vector-icons';
+import { FontAwesome } from '@expo/vector-icons';
 import * as Clipboard from 'expo-clipboard';
 
 /**
@@ -11,8 +13,11 @@ import * as Clipboard from 'expo-clipboard';
  */
 export const PasswordListItem = ({ props, longPress }) => {
     const [expanded, setExpanded] = useState(false);
+    const [visible, setVisible] = useState(false);
     const [copiedUn, setCopiedUn] = useState(false);
     const [copiedPass, setCopiedPass] = useState(false);
+    const iconName = FontAwesome.glyphMap.hasOwnProperty(props.provider.toLowerCase()) ?
+        props.provider.toLowerCase() : "square-o";
 
     // Copy username or password to clipboard and set indicator text visible for 1 sec
     const copyToClipboard = async (string, boolean) => {
@@ -25,41 +30,56 @@ export const PasswordListItem = ({ props, longPress }) => {
         }, 1000);
     };
 
+    // Change password text to plain text or dots depending on visibility
+    const securePasswordEntry = (password, visible) => {
+        if (visible == false) return `   ${password.replace(/./g, '• ')}`
+        else return `   ${props.password}`
+    }
+
     return (
-        <View style={styles.container}>
+        <View style={{ margin: 1 }}>
             <View style={styles.itemViewHeader}>
                 <Pressable
                     onLongPress={longPress}
                     onPress={() => setExpanded(!expanded)}
-                    style={({ pressed }) => pressed ? styles.listItemPressablePressed : styles.listItemPressable}
+                    android_ripple={{ color: "#FF79C6", borderless: true }}
+                    style={styles.itemViewHeader}
                 >
-                    <Text style={styles.listItemProvider}>{props.provider}</Text>
+                    <View style={[styles.flexRow, { alignItems: "center" }]}>
+                        <FontAwesome name={iconName} size={24} color="whitesmoke" style={{ width: 25, textAlign: "center" }} />
+                        <Text style={styles.listItemProvider}>{` ${props.provider}`}</Text>
+                    </View>
                     <Ionicons name={!expanded ? "md-chevron-down" : "md-chevron-up"} size={32} color="#FFA657" />
                 </Pressable>
             </View>
             {expanded ?
                 <>
                     <View style={styles.itemView}>
-                        <View style={styles.flexRow}>
-                            <Text style={styles.listItemTextOne}>Username:</Text>
-                            <Text style={styles.listItemText}>{`   ${props.username}`}</Text>
+                        <View style={[styles.flexRow, { marginLeft: 10 }]}>
+                            <AntDesign style={{ alignSelf: "center" }} name={"user"} size={20} color="#FFA657" />
+                            <Text style={styles.listItemText}>{`    ${props.username}`}</Text>
                         </View>
                         <Pressable
                             onPress={() => copyToClipboard(props.username, true)}
-                            style={({ pressed }) => pressed ? styles.iconPressablePressed : styles.iconPressable}
+                            android_ripple={{ color: "#FF79C6", borderless: true }}
                         >
                             {copiedUn && <Text style={styles.copyTxt}>Copied</Text>}
                             <Ionicons name="md-copy-outline" size={25} color="#FFA657" />
                         </Pressable>
                     </View>
                     <View style={styles.itemView}>
-                        <View style={styles.flexRow}>
-                            <Text style={styles.listItemTextOne}>Password:</Text>
-                            <Text style={styles.listItemText}>{`    ${props.password}`}</Text>
+                        <View style={[styles.flexRow, { marginLeft: 10 }]}>
+                            <Pressable
+                                onPress={() => setVisible(!visible)}
+                                android_ripple={{ color: "#FF79C6", borderless: true }}
+                            >
+                                <Ionicons name={visible ? "eye-outline" : "eye-off-outline"} size={24} color="#FFA657" />
+                            </Pressable>
+                            <Text style={styles.listItemText}>{securePasswordEntry(props.password, visible)}</Text>
                         </View>
                         <Pressable
                             onPress={() => copyToClipboard(props.password, false)}
-                            style={({ pressed }) => pressed ? styles.iconPressablePressed : styles.iconPressable}
+                            android_ripple={{ color: "#FF79C6", borderless: true }}
                         >
                             {copiedPass && <Text style={styles.copyTxt}>Copied</Text>}
                             <Ionicons name="md-copy-outline" size={25} color="#FFA657" />
@@ -73,53 +93,28 @@ export const PasswordListItem = ({ props, longPress }) => {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        margin: 1
-    },
     listItemProvider: {
         fontWeight: "bold",
         fontSize: 20,
         color: "#FF7B72"
     },
-    listItemTextOne: {
-        fontSize: 15,
-        color: "#FFA657",
-    },
     listItemText: {
         fontSize: 15,
         color: "#79C0FF",
+        alignSelf: "center"
     },
     itemView: {
         flexDirection: "row",
         justifyContent: "space-between",
-        backgroundColor: "#282A36",
         marginBottom: 3,
         marginTop: 3
     },
     itemViewHeader: {
-        flexDirection: "row",
-        justifyContent: "space-between",
-    },
-    listItemPressable: {
         flex: 1,
         flexDirection: "row",
         justifyContent: "space-between",
-        alignItems: "center"
-    },
-    listItemPressablePressed: {
-        flex: 1,
-        flexDirection: "row",
-        justifyContent: "space-between",
-        alignItems: "center",
-        backgroundColor: "rgb(210, 230, 255)",
-        borderRadius: 20
-    },
-    iconPressable: {
-        borderRadius: 5
-    },
-    iconPressablePressed: {
-        backgroundColor: "rgb(210, 230, 255)",
-        borderRadius: 5,
+        backgroundColor: "#282A36",
+        borderRadius: 25,
     },
     flexRow: {
         flexDirection: "row"

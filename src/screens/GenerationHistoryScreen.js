@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { HistoryList } from '../components/HistoryList';
-import { storageRead } from '../utils/storage.utils';
+import { asyncStorageRead } from '../utils/storage.utils';
 
 export const GenerationHistoryScreen = ({ navigation }) => {
     const [generationHistory, setGenerationHistory] = useState(null);
@@ -13,8 +13,8 @@ export const GenerationHistoryScreen = ({ navigation }) => {
         let mounted = true;
         const getHistory = async () => {
             try {
-                const history = await storageRead(currentUser + "History");
-                if (mounted) {
+                const history = await asyncStorageRead(currentUser + "History");
+                if (mounted && history[0]) {
                     setGenerationHistory(history);
                 }
             } catch (error) {

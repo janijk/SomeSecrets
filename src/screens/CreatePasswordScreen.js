@@ -152,8 +152,7 @@ export const CreatePasswordScreen = ({ navigation }) => {
                         </TextInput>
                         <Pressable
                             onPress={() => { password ? copyToClipboard(password) : null }}
-                            style={({ pressed }) => [{ backgroundColor: pressed ? 'rgb(210, 230, 255)' : null },
-                            styles.iconPressable]}
+                            android_ripple={{ color: "#FF79C6", borderless: true }}
                         >
                             {copiedPass && <Text style={styles.copyTxt}>Copied</Text>}
                             <Ionicons name="md-copy-outline" size={25} color={password ? "#FFA657" : "transparent"} />
@@ -244,10 +243,6 @@ const styles = StyleSheet.create({
         alignSelf: "center",
         backgroundColor: "#FFA657",
         opacity: 0.4
-    },
-    iconPressable: {
-        marginLeft: 5,
-        borderRadius: 5
     },
     copyTxt: {
         position: "absolute",

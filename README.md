@@ -4,7 +4,6 @@ jani jk jk
 
 
 blackout on blur ->
-secure notes ->
 biometric? ->
 pincode ->
 
@@ -16,3 +15,4 @@ generation history -> done with stack screen
 modify edit credential view -> delete button and cancel button
 logos for providers -> password list font awesome icons for providers
 screen headers -> done in generation history and signup
+secure notes -> new tab.navigator screen implemented

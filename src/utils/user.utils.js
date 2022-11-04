@@ -1,5 +1,5 @@
 import { encryption } from "./encryption.utils"
-import { storageRead, storageSave, storageCheck } from "./storage.utils"
+import { storageRead, storageSave, storageCheck, asyncStorageCheck, asyncStorageRead, asyncStorageSave } from "./storage.utils"
 import { user } from '../consts/user'
 import { credential } from '../consts/credential'
 
@@ -98,7 +98,7 @@ export const editCredentials = async (creds, username = "") => {
 }
 
 /**
- * Add new entry to history array
+ * Add new entry to history array, holds 50 newest entries
  * @param {*} entry object: { date: , time: , password: }
  * @param {*} username string
  * @returns 
@@ -106,12 +106,13 @@ export const editCredentials = async (creds, username = "") => {
 export const addEntryToHistory = async (entry, username = "") => {
     try {
         const key = username + "History";
-        const existingHistory = await storageCheck(key);
-        if (existingHistory == false) await storageSave(key, [entry]);
+        const existingHistory = await asyncStorageCheck(key);
+        if (existingHistory == false) await asyncStorageSave(key, [entry]);
         else {
-            const prevHistory = await storageRead(key);
+            const prevHistory = await asyncStorageRead(key);
+            if (prevHistory.length >= 50) prevHistory.shift()
             prevHistory.push(entry);
-            await storageSave(key, prevHistory);
+            await asyncStorageSave(key, prevHistory);
         }
     } catch (error) {
         console.log(`user.utils addToHistory error: ${error}`);

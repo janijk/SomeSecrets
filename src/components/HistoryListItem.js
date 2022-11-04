@@ -2,9 +2,17 @@ import { useState } from "react";
 import { View, StyleSheet, Text, Pressable } from "react-native"
 import Ionicons from '@expo/vector-icons/Ionicons';
 import * as Clipboard from 'expo-clipboard';
+import { CustomButton } from "./CustomButton";
 
 export const HistoryListItem = ({ item }) => {
     const [copiedPass, setCopiedPass] = useState(false);
+    const [visible, setVisible] = useState(false);
+
+    // Change password text to plain text or dots depending on visibility
+    const securePasswordEntry = (password, visible) => {
+        if (visible == false) return `${password.replace(/./g, ' •')}`
+        else return `${item.password}`
+    }
 
     // Copy password to clipboard and set indicator text visible for 1 sec
     const copyToClipboard = async (string) => {
@@ -20,15 +28,25 @@ export const HistoryListItem = ({ item }) => {
             <View style={styles.flexRow}>
                 <View style={styles.genOn}>
                     <Text style={styles.textDateTime}>{`Generated on ${item.date.slice(5)}, ${item.time}`}</Text>
-                    <Text style={styles.textBlue}>{item.password}</Text>
+                    <Text style={[styles.textBlue, !visible && { letterSpacing: 0 }]}>
+                        {securePasswordEntry(item.password, visible)}
+                    </Text>
                 </View>
-                <Pressable
-                    onPress={() => copyToClipboard(item.password)}
-                    style={({ pressed }) => pressed ? styles.iconPressablePressed : styles.iconPressable}
-                >
-                    {copiedPass && <Text style={styles.copyTxt}>Copied</Text>}
-                    <Ionicons name="md-copy-outline" size={25} color="#FFA657" />
-                </Pressable>
+                <View style={{ marginRight: 6 }}>
+                    <Pressable
+                        onPress={() => setVisible(!visible)}
+                        android_ripple={{ color: "#FF79C6", borderless: true }}
+                    >
+                        <Ionicons name={visible ? "eye-outline" : "eye-off-outline"} size={24} color="#FFA657" />
+                    </Pressable>
+                    <Pressable
+                        onPress={() => copyToClipboard(item.password)}
+                        android_ripple={{ color: "#FF79C6", borderless: true }}
+                    >
+                        {copiedPass && <Text style={styles.copyTxt}>Copied</Text>}
+                        <Ionicons name="md-copy-outline" size={25} color="#FFA657" />
+                    </Pressable>
+                </View>
             </View>
         </View>
     )
@@ -46,6 +64,7 @@ const styles = StyleSheet.create({
         color: "#79C0FF",
         fontSize: 16,
         margin: 3,
+        letterSpacing: 1
     },
     textDateTime: {
         color: "#cde3f7",
@@ -59,17 +78,6 @@ const styles = StyleSheet.create({
         top: 1,
         right: 30,
         color: "#cde3f7"
-    },
-    iconPressable: {
-        borderRadius: 5,
-        marginRight: 5,
-        alignSelf: "center"
-    },
-    iconPressablePressed: {
-        backgroundColor: "rgb(210, 230, 255)",
-        borderRadius: 5,
-        alignSelf: "center",
-        marginRight: 5
     },
     flexRow: {
         flexDirection: "row",

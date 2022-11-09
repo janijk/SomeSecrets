@@ -5,6 +5,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { CheckBox } from '../components/CheckBox';
 import { useEffect, useState } from 'react';
 import { AntDesign } from '@expo/vector-icons';
+import { encryption } from '../utils/encryption.utils';
 
 export const SettingsScreen = () => {
     const [loading, setLoading] = useState(false)
@@ -16,6 +17,7 @@ export const SettingsScreen = () => {
     const [isPin, setIsPinLocal] = useState(null);
     const dispatch = useDispatch();
 
+    // Initialize setting screen states
     useEffect(() => {
         setIsPinLocal(isPinRedux)
     }, []);
@@ -25,12 +27,14 @@ export const SettingsScreen = () => {
         setIsPinLocal(!isPin)
     }
 
-    const handlePinSave = () => {
+    // Ensure that pins match, if so encrypt it and save to redux state
+    const handlePinSave = async () => {
         if (pin && pin == pin2) {
             setLoading(true)
+            const encryptedPin = await encryption(pin)
             setTimeout(() => {
                 dispatch(setIsPin())
-                dispatch(setPincode(pin))
+                dispatch(setPincode(encryptedPin))
                 setPin("")
                 setPin2("")
                 setLoading(false)

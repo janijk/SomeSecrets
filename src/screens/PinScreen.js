@@ -3,7 +3,7 @@ import { StyleSheet, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { useSelector, useDispatch } from 'react-redux';
-import { setPinEnabled } from '../redux/loaderSlice';
+import { setPinCorrect } from '../redux/loaderSlice';
 import { encryption } from '../utils/encryption.utils';
 import { NumPad } from '../components/NumPad';
 
@@ -12,8 +12,10 @@ export const PinScreen = () => {
     const dispatch = useDispatch();
     const currentPincode = useSelector(state => state.loader.pincode);
 
-    const checkPin = (pinCode) => {
-        if (encryption(pinCode) === currentPincode) dispatch(setPinEnabled())
+    // Check if pincode is correct
+    const checkPin = async (pinCode) => {
+        const check = await encryption(pinCode)
+        if (check === currentPincode) dispatch(setPinCorrect())
         else setPin("")
     }
 

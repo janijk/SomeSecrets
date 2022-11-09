@@ -1,6 +1,6 @@
 import { StyleSheet, View, Image } from 'react-native';
 import { useDispatch } from 'react-redux';
-import { resetState } from '../redux/loaderSlice';
+import { setIsPinFalse, resetState } from '../redux/loaderSlice';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { CustomButton } from '../components/CustomButton';
@@ -10,6 +10,7 @@ export const HomeScreen = ({ navigation }) => {
 
     const handleSignout = () => {
         dispatch(resetState());
+        dispatch(setIsPinFalse());
     }
 
     return (

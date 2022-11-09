@@ -7,10 +7,12 @@ import { LoginScreen } from "./src/screens/LoginScreen"
 import { SignUpScreen } from "./src/screens/SignUpScreen"
 import { HomeTabs } from './src/components/HomeTabs';
 import { SplashScreen } from './src/screens/SplashScreen';
+import { PinScreen } from './src/screens/PinScreen';
 
 export default function App() {
   const Stack = createNativeStackNavigator();
   const isAuth = useSelector(state => state.loader.isAuth);
+  const isPinn = true;
   const MyTheme = {
     dark: true,
     colors: {
@@ -33,7 +35,11 @@ export default function App() {
               <Stack.Screen name="Sign up" component={SignUpScreen} options={{ headerShown: true }} />
             </>
           ) : (
-            <Stack.Screen name='hometabs' component={HomeTabs} />
+            <>
+              {!isPinn ? (
+                <Stack.Screen name="pin" component={PinScreen} />) : (<Stack.Screen name='hometabs' component={HomeTabs} />
+              )}
+            </>
           )}
         </Stack.Navigator>
       </NavigationContainer>

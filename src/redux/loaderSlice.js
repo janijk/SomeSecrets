@@ -5,9 +5,10 @@ export const loaderSlice = createSlice({
     initialState: {
         user: "",
         remember: "",
+        pincode: "",
         isAuth: false,
-        isSignout: false,
-        pinEnabled: false,
+        isPin: false,
+        pinCorrect: true,
         reload: false,
     },
     reducers: {
@@ -15,25 +16,29 @@ export const loaderSlice = createSlice({
             state.user = action.payload;
             state.remember = action.payload;
         },
+        setPincode: (state, action) => {
+            state.pincode = action.payload;
+        },
         setIsAuth: (state) => {
             state.isAuth = true;
         },
-        setIsSignout: (state) => {
-            state.isSignout = true;
+        setIsPin: (state) => {
+            if (state.isPin == true) state.pincode = ""
+            state.isPin = !state.isPin;
         },
-        setPinEnabled: (state) => {
-            state.pinEnabled = true;
+        setpinCorrect: (state) => {
+            state.pinCorrect = !state.pinCorrect;
         },
         resetState: (state) => {
             state.user = "";
+            state.pincode = "";
             state.isAuth = false;
-            state.isSignout = false;
-            state.pinEnabled = false;
+            state.isPin = false;
         },
         reloadCredentials: (state, action) => {
             state.reload = !state.reload;
         },
     }
 })
-export const { setUser, setIsAuth, setIsSignout, setPinEnabled, resetState, reloadCredentials } = loaderSlice.actions
+export const { setUser, setPincode, setIsAuth, setIsSignout, setIsPin, resetState, reloadCredentials } = loaderSlice.actions
 export default loaderSlice.reducer

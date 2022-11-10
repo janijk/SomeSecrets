@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { AppState } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { persistor } from './src/redux/Store';
@@ -18,8 +18,6 @@ export default function App() {
   const isAuth = useSelector(state => state.loader.isAuth);
   const isPinEnabled = useSelector(state => state.loader.isPin);
   const isPinCorrect = useSelector(state => state.loader.pinCorrect);
-  const w = useSelector(state => state.loader);
-
   const dispatch = useDispatch();
   const MyTheme = {
     dark: true,
@@ -33,24 +31,18 @@ export default function App() {
     },
   };
 
+  // Sets up event listener to track the AppState changes
   useEffect(() => {
+    if (!isPinEnabled) return
     const subscription = AppState.addEventListener("change", stateChange);
-    console.log("UE:", w);
     return () => {
       subscription.remove();
-      console.log("Appstate sub removed");
     };
   }, []);
 
+  // If appstate goes from active to background sets pincode view visible until right pin is submitted
   const stateChange = (nextAppState) => {
-    if (appState.current.match(/inactive|background/) && nextAppState === 'active') {
-      console.log('App has come to the foreground!');
-      console.log("loader", w);
-    }
-    if (appState.current.match(/active/) && nextAppState === 'background') {
-      dispatch(setPinCorrect())
-      console.log('App goes to back');
-    }
+    if (appState.current.match(/active/) && nextAppState === 'background') dispatch(setPinCorrect(false))
     appState.current = nextAppState;
   };
 

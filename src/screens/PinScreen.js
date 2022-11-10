@@ -15,10 +15,11 @@ export const PinScreen = () => {
     // Check if pincode is correct
     const checkPin = async (pinCode) => {
         const check = await encryption(pinCode)
-        if (check === currentPincode) dispatch(setPinCorrect())
+        if (check === currentPincode) dispatch(setPinCorrect(true))
         else setPin("")
     }
 
+    // Determines whether click of numpads button is a number, backspace or enter
     const handleClick = (value) => {
         let temp = pin;
         if (value == -1) pin == '' ? null : setPin(temp.slice(0, -1))

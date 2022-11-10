@@ -31,8 +31,8 @@ export const loaderSlice = createSlice({
             state.isPin = false;
             state.pinCorrect = true;
         },
-        setPinCorrect: (state) => {
-            state.pinCorrect = !state.pinCorrect;
+        setPinCorrect: (state, action) => {
+            state.pinCorrect = action.payload;
         },
         resetState: (state) => {
             state.user = "";

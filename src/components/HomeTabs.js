@@ -4,6 +4,7 @@ import { PwlsStackScreen } from './PwlsStack';
 import { HomeScreen } from "../screens/HomeScreen"
 import { AntDesign } from '@expo/vector-icons';
 import { MemoScreen } from '../screens/MemoScreen';
+import { HomeStack } from './HomeStack';
 
 export const HomeTabs = () => {
     const Tab = createBottomTabNavigator();
@@ -28,7 +29,7 @@ export const HomeTabs = () => {
                 headerShown: false
             })}
         >
-            <Tab.Screen name="home" component={HomeScreen} />
+            <Tab.Screen name="home" component={HomeStack} />
             <Tab.Screen name="memo" component={MemoScreen} />
             <Tab.Screen name="passwords" component={PasswordListScreen} />
             <Tab.Screen name="generate" component={PwlsStackScreen} />

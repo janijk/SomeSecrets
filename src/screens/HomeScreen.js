@@ -1,15 +1,16 @@
 import { StyleSheet, View, Image } from 'react-native';
 import { useDispatch } from 'react-redux';
-import { resetState } from '../redux/loaderSlice';
+import { setIsPinFalse, resetState } from '../redux/loaderSlice';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { CustomButton } from '../components/CustomButton';
 
-export const HomeScreen = () => {
+export const HomeScreen = ({ navigation }) => {
     const dispatch = useDispatch();
 
     const handleSignout = () => {
         dispatch(resetState());
+        dispatch(setIsPinFalse());
     }
 
     return (
@@ -18,13 +19,22 @@ export const HomeScreen = () => {
                 <Image style={styles.homeImage} source={require("../../assets/lock.png")}></Image>
             </View>
             <View style={styles.innerContainers}>
-                <CustomButton
-                    value={`  Logout `}
-                    iconSet={"AntDesign"}
-                    iconName={"logout"}
-                    iconSize={18}
-                    press={() => handleSignout()}
-                />
+                <View style={styles.buttonsContainer}>
+                    <CustomButton
+                        value={`  Logout `}
+                        iconSet={"AntDesign"}
+                        iconName={"logout"}
+                        iconSize={18}
+                        press={() => handleSignout()}
+                    />
+                    <CustomButton
+                        value={`  Settings`}
+                        iconSet={"AntDesign"}
+                        iconName={"setting"}
+                        iconSize={18}
+                        press={() => navigation.navigate('settings')}
+                    />
+                </View>
             </View>
             <StatusBar style="light" />
         </SafeAreaView>
@@ -48,6 +58,10 @@ const styles = StyleSheet.create({
     },
     innerContainers: {
         flex: 1,
-        justifyContent: "center"
+        justifyContent: "center",
+    },
+    buttonsContainer: {
+        height: 100,
+        justifyContent: "space-between",
     },
 });

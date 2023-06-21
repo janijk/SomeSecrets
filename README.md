@@ -6,27 +6,26 @@
 * [Introduction](#introduction)
 * [Features](#features)
 * [Technologies](#technologies)
-* [Usage](#usage)
 * [Authors](#authors)
-* [Sources](#sources)
+* [Acknowledgements](#sources)
 
 ## Introduction
-intro
+Mobile app for password generation and management.
 
 
 ## Features
-- feats
+- Generate strong passwords
+- Store credentials encrypted locally on device
 
 ## Technologies
 - Javascript
+- Expo
 - React native
-- 
-
-## Usage
-usage
-
+- Redux
+- React Navigation
 
 ## Authors
 [@Jani](https://github.com/janijk)<br />
 
 ## Acknowledgements
+Picture which is used as logo in the app is <a href="https://www.freepik.com/free-vector/cyber-lock-security-padlock-abstract-wire-low-poly-polygonal-wire-frame-mesh-looks-like-constellation-dark-blue-night-sky-with-dots-stars-illustration-background_24245604.htm#query=lock&position=3&from_view=author">Image by WangXiNa</a> on Freepik
